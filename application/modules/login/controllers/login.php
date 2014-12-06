@@ -13,6 +13,7 @@ class Login extends CI_Controller {
         $this->load->model('loginmodel');
     }
     
+    
 
     public function index() {
         $admin_userdata = $this->session->userdata(APP_PFIX . 'admin');
