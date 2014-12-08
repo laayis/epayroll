@@ -30,6 +30,7 @@ class Department extends Admin_Controller {
         $this->wrapper = 'admin_wrapper';
     }
 
+    
     public function detail($id) {
         $data = array(
             'main_content' => 'view',
