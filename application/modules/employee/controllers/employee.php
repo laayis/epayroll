@@ -111,7 +111,7 @@ class Employee extends CI_Controller {
                 'phone' => $this->input->post('phone'),
                 'probation_status' => $this->input->post('probation_status'),
                 'marital_status' => $this->input->post('marital_status'),
-                'department' => $this->input->post('department_name'),
+                'department_name' => $this->input->post('department_name'),
                 'designation_name' => $this->input->post('designation_name'),
                 'grade' => $this->input->post('grade'),
                 'basic_salary' => $this->input->post('basic_salary'),

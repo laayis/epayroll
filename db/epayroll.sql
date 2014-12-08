@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `allowances` (
   `allowances_type` varchar(100) NOT NULL,
   `allowances_amount` double NOT NULL,
   PRIMARY KEY (`allowances_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `attendance` (
   `note` varchar(500) NOT NULL,
   PRIMARY KEY (`date`),
   UNIQUE KEY `emp_id` (`emp_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `basic_salary` (
   `department_id` int(11) NOT NULL,
   `basic_salary_amount` varchar(100) NOT NULL,
   PRIMARY KEY (`basic_salary_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `deduction` (
   `deduction_amount` double NOT NULL,
   `deduction_type` varchar(50) NOT NULL,
   PRIMARY KEY (`deduction_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `department` (
   `department_id` int(11) NOT NULL AUTO_INCREMENT,
   `department_name` varchar(50) NOT NULL,
   PRIMARY KEY (`department_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `designation` (
   `designation_id` int(11) NOT NULL AUTO_INCREMENT,
   `designation_name` varchar(100) NOT NULL,
   PRIMARY KEY (`designation_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 -- --------------------------------------------------------
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `grade` (
   `grade_id` int(11) NOT NULL AUTO_INCREMENT,
   `grade_type` varchar(50) NOT NULL,
   PRIMARY KEY (`grade_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 -- --------------------------------------------------------
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `office_time` (
   `designation_outtime` time(6) NOT NULL,
   `effective_date` date NOT NULL,
   PRIMARY KEY (`office_time_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `provident_fund` (
   `provident_fund_amount` double NOT NULL,
   `provident_fund_rate` varchar(20) NOT NULL,
   PRIMARY KEY (`provident_fund_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -158,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `emp_provident_fund` (
   `provident_fund_id` int(11) NOT NULL,
   `emp_provident_fund_amount` double NOT NULL,
 `payed_on_date` datetime(6) NOT NULL DEFAULT '0000-00-00 00:00:00.000000',  PRIMARY KEY (`emp_provident_fund_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `emp_allowances` (
   `emp_id` int(11) NOT NULL,
   `allowances_id` int(11) NOT NULL,
   PRIMARY KEY (`emp_allowances_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -185,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `emp_deduction` (
   `deduction_id` int(11) NOT NULL,
   `payed_on_date` datetime(6) NOT NULL DEFAULT '0000-00-00 00:00:00.000000',
   PRIMARY KEY (`emp_deduction_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `groups`;
 
@@ -198,7 +198,7 @@ CREATE TABLE `groups` (
   `name` varchar(20) NOT NULL,
   `description` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table 'groups'
@@ -242,7 +242,7 @@ CREATE TABLE `employee` (
   `basic_salary` double NOT NULL,
   `joined_date` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 #
@@ -269,7 +269,7 @@ CREATE TABLE `employee_groups` (
   CONSTRAINT `uc_employee_groups` UNIQUE (`user_id`, `group_id`),
   CONSTRAINT `fk_employee_groups_users1` FOREIGN KEY (`user_id`) REFERENCES `employee` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_employee_groups_groups1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `employee_groups` (`id`, `user_id`, `group_id`) VALUES
      (1,1,1),
@@ -288,4 +288,4 @@ CREATE TABLE `login_attempts` (
   `login` varchar(100) NOT NULL,
   `time` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
