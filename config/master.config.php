@@ -10,7 +10,7 @@ $servers = array(
 if(in_array($_SERVER['SERVER_NAME'] , $servers['localserver'])) {
     ## localserver config
     ## admin configuration settings
-    define('ADMIN_BASE_URL' , 'http://localhost:81/epayroll');
+    define('ADMIN_BASE_URL' , 'http://localhost/epayroll');
 
     ## root path
     define('ROOT_PATH' ,  __DIR__.'/../' );
@@ -22,15 +22,7 @@ if(in_array($_SERVER['SERVER_NAME'] , $servers['localserver'])) {
     define('DBNAME' , 'epayroll');
 }
 else {
-    ## for production server
-    ## admin configuration settings
-    define('ADMIN_BASE_URL' , '');
-
-    ## db settings
-    define('DBHOST' , '');
-    define('DBUSER' , '');
-    define('DBPASS' , '');
-    define('DBNAME' , '');
+    ## may be for production server
 }
 
 ## application specific settings
