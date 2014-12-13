@@ -65,47 +65,103 @@
                                 <?php
                             }
                             ?>
-                            <?php echo form_open_multipart("employee/add", array('role' => 'form')); ?>
+                            <?php echo form_open_multipart("user/add/", array('id' => 'form1', 'role' => 'form')); ?>
                             <div class="row">
-                                <div class="col-sm-3">
+                                <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="first_name" class="required">First Name <span class="required">*</span></label>
+                                        <label for="title">Title <span class="required">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" name="first_name" class="form-control" value="<?php echo @$_POST['first_name'] ?>">
+                                            <select name="title" class="form-control" id="title">
+                                                <option value="">Select Title</option>
+                                                <option value="Mr.">Mr.</option>
+                                                <option value="Mrs.">Mrs.</option>
+                                                <option value="Other">Other</option>
+                                            </select>
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="last_name">Last Name <span class="required">*</span></label>
+                                        <label for="fname" class="required">First Name <span class="required">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" name="last_name" class="form-control" value="<?php echo @$_POST['last_name'] ?>">
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label for="address">Address <span class="required">*</span></label>
-                                        <span class="input-icon icon-right">
-                                            <input class="form-control" name="address" type="text" value="<?php @$_POST['address'] ?> ">
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label for="phone">Phone Number <span class="required">*</span></label>
-                                        <span class="input-icon icon-right">
-                                            <input type="text" name="phone" class="form-control" value="<?php echo @$_POST['mobile_no'] ?>">
+                                            <input type="text" class="form-control" value="<?php echo @$_POST['fname'] ?>">
                                         </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-3">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="mname">Middle Name</label>
+                                        <span class="input-icon icon-right">
+                                            <input class="form-control" type="text" value="<?php echo @$_POST['mname'] ?>">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="lname">Last Name <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" class="form-control" value="<?php echo @$_POST['lname'] ?>">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="marital_status">Marital Status <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <select name="type" class="form-control" id="marital_status">
+                                                <option value="">Select Type</option>
+                                                <option value="1">Married</option>
+                                                <option value="0">Unmarried</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="joining_date">Joining Date <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" value="<?php echo @$_POST['joining_date'] ?>">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="type">Type <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <select name="type" class="form-control" id="type">
+                                                <option value="">Select Type</option>
+                                                <option value="1">Hired</option>
+                                                <option value="0">Probation</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="designation">Designation <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <select name="designation" class="form-control" id="designation">
+                                                <option value="">Select Title</option>
+                                                <option value="3">Programmer</option>
+                                                <option value="2">Designer</option>
+                                                <option value="1">Officer</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="department">Department <span class="required">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select name="department_name" class="form-control" id="department_name">
+                                            <select name="department" class="form-control" id="department">
                                                 <option value="">Select Department</option>
                                                 <option value="2">Account</option>
                                                 <option value="4">Executive</option>
@@ -115,103 +171,52 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="designation_name">Designation <span class="required"> * </span></label>
+                                        <label for="mobile_no">Mobile Number <span class="required">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select name="designation_name" class="form-control" id="designation_name">
-                                                <option value="">Select Title</option>
-                                                <option value="3">Programmer</option>
-                                                <option value="2">Designer</option>
-                                                <option value="1">Officer</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label for="grade">Grade <span class="required">*</span></label>
-                                        <span class="input-icon icon-right">
-                                            <select name="grade" class="form-control" id="grade">
-                                                <option value="">Select Grade</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="3">4</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label for="basic_salary">Basic Salary<span class="required">*</span></label>
-                                        <span class="input-icon icon-right">
-                                            <input type="text" name="basic_salary" class="form-control" <?php @$_POST['email'] ?>>
+                                            <input type="text" class="form-control" value="<?php echo @$_POST['mobile_no'] ?>">
                                         </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-3">
+                                <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="marital_status">Marital Status <span class="required">*</span></label>
+                                        <label for="address">Address <span class="required">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select name="marital_status" class="form-control" id="marital_status">
-                                                <option value="">Select Type</option>
-                                                <option value="1">Married</option>
-                                                <option value="0">Unmarried</option>
-                                            </select>
+                                            <input class="form-control" type="text" <?php @$_POST['address'] ?>>
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label for="probation_status">Probation Status <span class="required">*</span></label>
-                                        <span class="input-icon icon-right">
-                                            <select name="probation_status" class="form-control" id="probation_status">
-                                                <option value="">Select Type</option>
-                                                <option value="1">Probation</option>
-                                                <option value="0">Permanent</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label for="joining_date">Joining Date <span class="required">*</span></label>
-                                        <span class="input-icon icon-right">
-                                            <input class="form-control date-picker" name="joining_date" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" value="<?php echo @$_POST['joining_date'] ?>">
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="email">Email<span class="required">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" name="email" class="form-control" <?php @$_POST['email'] ?>>
+                                            <input type="text" class="form-control" <?php @$_POST['email'] ?>>
                                         </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-3">
+                                <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="password">Password <span class="required">*</span></label>
+                                        <label for="username">Username <span class="required">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input class="form-control" type="password" <?php @$_POST['password'] ?>>
+                                            <input class="form-control" type="text" <?php @$_POST['username'] ?>>
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="confirm_password">Confirm Password<span class="required">*</span></label>
+                                        <label for="password">Password<span class="required">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input type="password" name="confirm_password" class="form-control" <?php @$_POST['confirm_password'] ?>>
+                                            <input type="text" class="form-control" <?php @$_POST['password'] ?>>
                                         </span>
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn btn-blue">Submit</button>
+                            <button type="submit" class="btn btn btn-blue">Register</button>
                             </form>
                         </div>
                     </div>

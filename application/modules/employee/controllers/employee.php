@@ -1,30 +1,195 @@
+<?php if (!defined('BASEPATH')) exit('No access allowed'); ?>
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+class User extends CI_controller {
 
-class Employee extends CI_Controller {
-
-    function __construct() {
+    public function __construct() {
         parent::__construct();
-        $this->load->database();
-        $this->load->library(array('ion_auth', 'form_validation'));
-        $this->load->helper(array('url', 'language'));
-
-        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
-
-        $this->lang->load('auth');
-    }
-
-    //redirect if needed, otherwise display the user list
-    function index() {
 
         if (!$this->ion_auth->logged_in()) {
-            //redirect them to the login page
-            redirect('employee/login', 'refresh');
-        } else {
-
-            $this->_render_page('employee/index');
+            $this->session->set_flashdata('errorlogin', "You must log in!");
+            redirect('auth', 'refresh');
         }
+
+        $this->load->model('usermodel');
+    }
+
+    public function index() {
+        
+
+}
+
+    public function add() {
+        $main_content = 'add';
+
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('emp_fname', 'First Name', 'trim|required');
+        $this->form_validation->set_rules('emp_lname', 'Last Name', 'trim|required');
+        $this->form_validation->set_rules('emp_marital_status', 'Marital Status', 'trim|required');
+        $this->form_validation->set_rules('emp_type', 'Employee Type', 'trim|required');
+        $this->form_validation->set_rules('designation_name', 'Designation', 'trim|required');
+        $this->form_validation->set_rules('department_name', 'Department', 'trim|required');
+        $this->form_validation->set_rules('emp_mobile_no', 'Mobile Number', 'trim|min_length[10]|max_length[13]|required');
+        $this->form_validation->set_rules('emp_login_id', 'Email', 'trim|required|email|xss_clean');
+        $this->form_validation->set_rules('emp_password', 'Password', 'trim|required|password');
+        if ($this->form_validation->run() == TRUE) {
+            $img_name = '';
+            if ($_FILES["uimage"]["size"] > 0) {
+                $u_config = array();
+                $u_config['upload_path'] = './uploads/user/';
+                $u_config['allowed_types'] = 'gif|jpg|png|bmp|jpeg';
+                //$u_config['max_size']			= '500'; //500kb
+                $u_config['max_size'] = '5120'; //5Mb
+                //$u_config['max_width']  		= '1600';
+                //$u_config['max_height']  		= '1200';
+                $u_config['encrypt_name'] = TRUE;
+
+                $this->load->library('upload', $u_config);
+
+                if (!$this->upload->do_upload('uimage')) {
+                    $this->session->set_flashdata('error', $this->upload->display_errors());
+                    redirect('user/add/', 'refresh');
+                } else {
+                    $img = $this->upload->data();
+                    $img_name = $img['file_name'];
+                    $r_config = array();
+                    $r_config['image_library'] = 'gd2';
+                    $r_config['source_image'] = $img['full_path'];
+                    $r_config['maintain_ratio'] = TRUE;
+                    $r_config['width'] = 184;
+                    $r_config['height'] = 188;
+
+                    $this->load->library('image_lib', $r_config);
+                    $this->image_lib->resize();
+                }
+            }
+
+            $this->usermodel->add($img_name);
+            $this->session->set_flashdata('success', 'New User Added Successfully.');
+            redirect('user/add/', 'refresh');
+        }
+
+        $data = array(
+            'main_content' => $main_content,
+        );
+        $this->load->view('form_wrapper', $data);
+    }
+
+    public function edit($id = false) {
+        $main_content = 'edit';
+
+        if (!$id) {
+            $this->session->set_flashdata('error', "Id can't be empty.");
+            redirect('user/index', 'refresh');
+        }
+
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('emp_fname', 'First Name', 'trim|required');
+        $this->form_validation->set_rules('emp_lname', 'Last Name', 'trim|required');
+        $this->form_validation->set_rules('emp_marital_status', 'Marital Status', 'trim|required');
+        $this->form_validation->set_rules('emp_type', 'Employee Type', 'trim|required');
+        $this->form_validation->set_rules('designation_name', 'Designation', 'trim|required');
+        $this->form_validation->set_rules('department_name', 'Department', 'trim|required');
+        $this->form_validation->set_rules('emp_mobile_no', 'Mobile Number', 'trim|min_length[10]|max_length[13]|required');
+        $this->form_validation->set_rules('emp_login_id', 'Email', 'trim|required|email|xss_clean');
+        $this->form_validation->set_rules('emp_password', 'Password', 'trim|required|password');
+
+        if ($this->form_validation->run() == TRUE) {
+            $img_name = '';
+            if ($_FILES["uimage"]["size"] > 0) {
+                $u_config = array();
+                $u_config['upload_path'] = './uploads/user/';
+                $u_config['allowed_types'] = 'gif|jpg|png|bmp|jpeg';
+                //$u_config['max_size']			= '500'; //500kb
+                $u_config['max_size'] = '5120'; //5Mb
+                //$u_config['max_width']  		= '1600';
+                //$u_config['max_height']  		= '1200';
+                $u_config['encrypt_name'] = TRUE;
+
+                $this->load->library('upload', $u_config);
+
+                if (!$this->upload->do_upload('uimage')) {
+                    $this->session->set_flashdata('error', $this->upload->display_errors());
+                    redirect('user/edit/' . $id, 'refresh');
+                } else {
+                    $img = $this->upload->data();
+                    $img_name = $img['file_name'];
+                    $r_config = array();
+                    $r_config['image_library'] = 'gd2';
+                    $r_config['source_image'] = $img['full_path'];
+                    $r_config['maintain_ratio'] = TRUE;
+                    $r_config['width'] = 184;
+                    $r_config['height'] = 188;
+
+                    $this->load->library('image_lib', $r_config);
+                    $this->image_lib->resize();
+                }
+            }
+
+            $this->usermodel->edit($img_name);
+            $this->session->set_flashdata('success', 'User Edited Successfully.');
+            redirect('user/edit/' . $id, 'refresh');
+        }
+
+        $record = $this->usermodel->getUserById($id);
+        $data = array(
+            'main_content' => $main_content,
+            'record' => $record,
+        );
+        $this->load->view('form_wrapper', $data);
+    }
+
+    // view user info/role/permission detail
+    public function detail() {
+// 		if(!$this->rbacmodel->checkPermission()) {
+//     		$main_content = 'insufficientpermission/insufficientpermission';
+//     	} else {
+//     		$main_content = 'detail';
+//     	}
+        $main_content = 'detail';
+
+        $uid = floatval($this->uri->segment(3));
+        $params = array('userID' => $uid);
+        $this->load->library('gcacl', $params);
+
+        $data = array(
+            'main_content' => $main_content,
+            'info' => $this->usermodel->getUserById(floatval($uid)),
+            'userlist' => $this->usermodel->getUser(),
+            'uid' => $uid,
+        );
+        $this->load->view('detail_wrapper', $data);
+    }
+
+    ####### delete action
+
+    public function delete() {
+        //$this->rbacmodel->checkPermission();
+
+        $id = $this->uri->segment(3);
+        $this->usermodel->deleteRecord($id);
+
+        $this->session->set_flashdata('success', 'Record deleted successfully.');
+
+        $uripart = '';
+        //$uripart = $this->_buildURIPart();
+        redirect('user/index' . $uripart, 'refresh');
+    }
+
+    public function bulkdelete() {
+        //$this->rbacmodel->checkPermission();
+
+        $id = $this->input->post('check_all');
+        $del = $this->usermodel->deleteRecordBulk($id);
+        if ($del) {
+            $this->session->set_flashdata('success', 'Record(s) deleted successfully.');
+        } else {
+            $this->session->set_flashdata('error', 'Sorry, record(s) delete failed. Please try again later.');
+        }
+
+        $uripart = '';
+        //$uripart = $this->_buildURIPart();
+        redirect('user/index' . $uripart, 'refresh');
     }
 
     //activate the user
@@ -38,11 +203,11 @@ class Employee extends CI_Controller {
         if ($activation) {
             //redirect them to the auth page
             $this->session->set_flashdata('message', $this->ion_auth->messages());
-            redirect("employee", 'refresh');
+            redirect("login2", 'refresh');
         } else {
             //redirect them to the forgot password page
             $this->session->set_flashdata('message', $this->ion_auth->errors());
-            redirect("employee/forgot_password", 'refresh');
+            redirect("login2/forgot_password", 'refresh');
         }
     }
 
@@ -64,7 +229,7 @@ class Employee extends CI_Controller {
             $this->data['csrf'] = $this->_get_csrf_nonce();
             $this->data['user'] = $this->ion_auth->user($id)->row();
 
-            $this->_render_page('employee/deactivate_user', $this->data);
+            $this->_render_page('login2/deactivate_user', $this->data);
         } else {
             // do we really want to deactivate?
             if ($this->input->post('confirm') == 'yes') {
@@ -80,15 +245,16 @@ class Employee extends CI_Controller {
             }
 
             //redirect them back to the auth page
-            redirect('employee', 'refresh');
+            redirect('login2', 'refresh');
         }
     }
 
     //create a new user
-    function add() {
+    function create_user() {
+        $this->data['title'] = "Create User";
 
         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
-            redirect('employee', 'refresh');
+            redirect('login2', 'refresh');
         }
 
         $tables = $this->config->item('tables', 'ion_auth');
@@ -98,8 +264,10 @@ class Employee extends CI_Controller {
         $this->form_validation->set_rules('last_name', $this->lang->line('create_user_validation_lname_label'), 'required|xss_clean');
         $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'required|valid_email|is_unique[' . $tables['users'] . '.email]');
         $this->form_validation->set_rules('phone', $this->lang->line('create_user_validation_phone_label'), 'required|xss_clean');
+        $this->form_validation->set_rules('company', $this->lang->line('create_user_validation_company_label'), 'required|xss_clean');
         $this->form_validation->set_rules('password', $this->lang->line('create_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
         $this->form_validation->set_rules('password_confirm', $this->lang->line('create_user_validation_password_confirm_label'), 'required');
+
         if ($this->form_validation->run() == true) {
             $username = strtolower($this->input->post('first_name')) . ' ' . strtolower($this->input->post('last_name'));
             $email = strtolower($this->input->post('email'));
@@ -108,22 +276,15 @@ class Employee extends CI_Controller {
             $additional_data = array(
                 'first_name' => $this->input->post('first_name'),
                 'last_name' => $this->input->post('last_name'),
+                'company' => $this->input->post('company'),
                 'phone' => $this->input->post('phone'),
-                'probation_status' => $this->input->post('probation_status'),
-                'marital_status' => $this->input->post('marital_status'),
-                'department_name' => $this->input->post('department_name'),
-                'designation_name' => $this->input->post('designation_name'),
-                'grade' => $this->input->post('grade'),
-                'basic_salary' => $this->input->post('basic_salary'),
-                'joining_date' => $this->input->post('joining_date'),
-                'address' => $this->input->post('address'),
             );
         }
         if ($this->form_validation->run() == true && $this->ion_auth->register($username, $password, $email, $additional_data)) {
             //check to see if we are creating the user
             //redirect them back to the admin page
             $this->session->set_flashdata('message', $this->ion_auth->messages());
-            redirect("employee", 'refresh');
+            redirect("login2", 'refresh');
         } else {
             //display the create user form
             //set the flash data error message if there is one
@@ -147,6 +308,12 @@ class Employee extends CI_Controller {
                 'type' => 'text',
                 'value' => $this->form_validation->set_value('email'),
             );
+            $this->data['company'] = array(
+                'name' => 'company',
+                'id' => 'company',
+                'type' => 'text',
+                'value' => $this->form_validation->set_value('company'),
+            );
             $this->data['phone'] = array(
                 'name' => 'phone',
                 'id' => 'phone',
@@ -165,25 +332,17 @@ class Employee extends CI_Controller {
                 'type' => 'password',
                 'value' => $this->form_validation->set_value('password_confirm'),
             );
-            $this->data['phone'] = array(
-                'name' => 'company',
-                'id' => 'company',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('phone'),
-            );
 
-
-            $this->data['main_content'] = 'employee/add';
-            $this->load->view('admin_wrapper', $this->data);
+            $this->_render_page('login2/create_user', $this->data);
         }
     }
 
     //edit a user
-    function edit($id) {
-        $this->data['title'] = "Edit Employee";
+    function edit_user($id) {
+        $this->data['title'] = "Edit User";
 
         if (!$this->ion_auth->logged_in() || (!$this->ion_auth->is_admin() && !($this->ion_auth->user()->row()->id == $id))) {
-            redirect('employee', 'refresh');
+            redirect('login2', 'refresh');
         }
 
         $user = $this->ion_auth->user($id)->row();
@@ -191,19 +350,11 @@ class Employee extends CI_Controller {
         $currentGroups = $this->ion_auth->get_users_groups($id)->result();
 
         //validate form input
-        //validate form input
-        $this->form_validation->set_rules('first_name', $this->lang->line('create_user_validation_fname_label'), 'required|xss_clean');
-        $this->form_validation->set_rules('last_name', $this->lang->line('create_user_validation_lname_label'), 'required|xss_clean');
-        $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'required|valid_email|is_unique[' . $tables['users'] . '.email]');
-        $this->form_validation->set_rules('phone', $this->lang->line('create_user_validation_phone_label'), 'required|xss_clean');
-        $this->form_validation->set_rules('password', $this->lang->line('create_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
-        $this->form_validation->set_rules('password_confirm', $this->lang->line('create_user_validation_password_confirm_label'), 'required');
-        $this->form_validation->set_rules('status', 'Employee Status', 'trim|required');
-        $this->form_validation->set_rules('department_name', 'Department', 'trim|required');
-        $this->form_validation->set_rules('designation_name', 'Designation', 'trim|required');
-        $this->form_validation->set_rules('grade', 'Grade', 'trim|required');
-        $this->form_validation->set_rules('basic_salary', 'Basic Salary', 'trim|required');
-        $this->form_validation->set_rules('joining_date', 'Joining Date', 'trim|required');
+        $this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'required|xss_clean');
+        $this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'required|xss_clean');
+        $this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'required|xss_clean');
+        $this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'required|xss_clean');
+        $this->form_validation->set_rules('groups', $this->lang->line('edit_user_validation_groups_label'), 'xss_clean');
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
@@ -221,7 +372,7 @@ class Employee extends CI_Controller {
                 $data = array(
                     'first_name' => $this->input->post('first_name'),
                     'last_name' => $this->input->post('last_name'),
-                    'email' => $this->input->post('email'),
+                    'company' => $this->input->post('company'),
                     'phone' => $this->input->post('phone'),
                 );
 
@@ -252,7 +403,7 @@ class Employee extends CI_Controller {
                     //redirect them back to the admin page if admin, or to the base url if non admin
                     $this->session->set_flashdata('message', $this->ion_auth->messages());
                     if ($this->ion_auth->is_admin()) {
-                        redirect('employee', 'refresh');
+                        redirect('login2', 'refresh');
                     } else {
                         redirect('/', 'refresh');
                     }
@@ -260,7 +411,7 @@ class Employee extends CI_Controller {
                     //redirect them back to the admin page if admin, or to the base url if non admin
                     $this->session->set_flashdata('message', $this->ion_auth->errors());
                     if ($this->ion_auth->is_admin()) {
-                        redirect('employee', 'refresh');
+                        redirect('login2', 'refresh');
                     } else {
                         redirect('/', 'refresh');
                     }
@@ -291,6 +442,12 @@ class Employee extends CI_Controller {
             'type' => 'text',
             'value' => $this->form_validation->set_value('last_name', $user->last_name),
         );
+        $this->data['company'] = array(
+            'name' => 'company',
+            'id' => 'company',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('company', $user->company),
+        );
         $this->data['phone'] = array(
             'name' => 'phone',
             'id' => 'phone',
@@ -308,24 +465,7 @@ class Employee extends CI_Controller {
             'type' => 'password'
         );
 
-        $this->data['main_content'] = 'employee/edit';
-        $this->load->view('admin_wrapper', $this->data);
-    }
-
-    public function delete() {
-        $this->data['title'] = "Delete Employee";
-
-        if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
-            redirect('employee', 'refresh');
-        }
-
-        $this->ion_auth->delete_user($id);
-
-        $this->session->set_flashdata('success', 'Record deleted successfully.');
-
-        $uripart = '';
-        //$uripart = $this->_buildURIPart();
-        redirect('employee/index' . $uripart, 'refresh');
+        $this->_render_page('auth/edit_user', $this->data);
     }
 
     // create a new group
@@ -333,7 +473,7 @@ class Employee extends CI_Controller {
         $this->data['title'] = $this->lang->line('create_group_title');
 
         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
-            redirect('employee', 'refresh');
+            redirect('auth', 'refresh');
         }
 
         //validate form input
@@ -346,7 +486,7 @@ class Employee extends CI_Controller {
                 // check to see if we are creating the group
                 // redirect them back to the admin page
                 $this->session->set_flashdata('message', $this->ion_auth->messages());
-                redirect("employee", 'refresh');
+                redirect("auth", 'refresh');
             }
         } else {
             //display the create group form
@@ -366,8 +506,7 @@ class Employee extends CI_Controller {
                 'value' => $this->form_validation->set_value('description'),
             );
 
-            $this->data['main_content'] = 'empolyee/create_group';
-            $this->load->view('admin_wrapper', $this->data);
+            $this->_render_page('auth/create_group', $this->data);
         }
     }
 
@@ -375,13 +514,13 @@ class Employee extends CI_Controller {
     function edit_group($id) {
         // bail if no group id given
         if (!$id || empty($id)) {
-            redirect('employee', 'refresh');
+            redirect('auth', 'refresh');
         }
 
         $this->data['title'] = $this->lang->line('edit_group_title');
 
         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
-            redirect('employee', 'refresh');
+            redirect('auth', 'refresh');
         }
 
         $group = $this->ion_auth->group($id)->row();
@@ -399,7 +538,7 @@ class Employee extends CI_Controller {
                 } else {
                     $this->session->set_flashdata('message', $this->ion_auth->errors());
                 }
-                redirect("employee", 'refresh');
+                redirect("auth", 'refresh');
             }
         }
 
@@ -422,8 +561,7 @@ class Employee extends CI_Controller {
             'value' => $this->form_validation->set_value('group_description', $group->description),
         );
 
-        $this->data['main_content'] = 'employee/edit_group';
-        $this->load->view('admin_wrapper', $this->data);
+        $this->_render_page('auth/edit_group', $this->data);
     }
 
     function _get_csrf_nonce() {

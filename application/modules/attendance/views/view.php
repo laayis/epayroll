@@ -9,7 +9,7 @@
         <!--  start step-holder -->
         <div id="step-holder">
             
-            <div class="step-dark-left"><a href="">View Designations Details</a></div>
+            <div class="step-dark-left"><a href="">View Attributes Details</a></div>
             <div class="step-dark-right">&nbsp;</div>
             <div class="clear"></div>
         </div>
@@ -17,7 +17,7 @@
 
         <!-- start id-form -->
         
-        <p><b>Designation Name : </b><?php echo $data->designation_name; ?></p>
+        <p><b>Attribute Name : </b><?php echo $data->attribute_name; ?></p>
         
         
         <!-- end id-form  -->

@@ -1,7 +1,7 @@
 <?php $uripart = ''; ?>
 <div class="centercontent tables">
 <div class="pageheader notab">
-    <h1 class="pagetitle">Designations List</h1>
+    <h1 class="pagetitle">Departments List</h1>
     <span class="pagedesc">
     </span>
 </div><!--pageheader-->
@@ -20,7 +20,7 @@ if ($this->session->flashdata('success'))
         <div class="contenttitle2">
             <h3>clinic: List (All)</h3>
         </div>contenttitle-->
-<a href="<?php echo base_url("designation/add"); ?>" title="Add" class="icon-5 info-tooltip">Add</a>
+<a href="<?php echo base_url("department/add"); ?>" title="Add" class="icon-5 info-tooltip">Add</a>
 
     <table cellpadding="0" cellspacing="0" border="0" class="stdtable" id="dyntable2">
 
@@ -37,7 +37,8 @@ if ($this->session->flashdata('success'))
                 <th class="head0 nosort">
                     <input type="checkbox" /><a id="toggle-all" ></a>
                 </th>
-                <th class="head1">Designation Name</th>
+                <th class="head1">Department Name</th>
+                <th class="head1">Department Code</th>
                 
                 <th class="head1">Actions</th>
 
@@ -51,7 +52,8 @@ if ($this->session->flashdata('success'))
                     </span>
                 </th>
 
-                <th class="head1">Designation Name</th>
+                <th class="head1">Department Name</th>
+                <th class="head1">Department Code</th>
                 <th class="head1">Actions</th>
                 
             </tr>
@@ -60,17 +62,19 @@ if ($this->session->flashdata('success'))
             <?php foreach ($record as $val) { ?>
                 <tr class="gradeA">
                     <td align="center"><span class="center">
-                            <input type="checkbox" id="id[]" name="id[]" value="<?php echo $val->designation_id; ?>" />
+                            <input type="checkbox" id="id[]" name="id[]" value="<?php echo $val->department_id; ?>" />
                         </span></td>
 
-                    <td><?php echo $val->designation_name; ?></a></td>
+                    <td><?php echo $val->department_name; ?></a></td>
+                    
+                    <td><?php echo $val->department_code; ?></a></td>
                     
                     
                     <td class="options-width">
-                        <a href="<?php echo base_url("designation/edit/{$val->designation_id}"); ?>" title="Edit" class="icon-1 info-tooltip">Edit</a>
-                        <a href="<?php echo base_url("designation/delete/{$val->designation_id}"); ?><?php echo $uripart ?>" onclick="if (!confirm('Are you sure you want to delete this record??'))
+                        <a href="<?php echo base_url("department/edit/{$val->department_id}"); ?>" title="Edit" class="icon-1 info-tooltip">Edit</a>
+                        <a href="<?php echo base_url("department/delete/{$val->department_id}"); ?><?php echo $uripart ?>" onclick="if (!confirm('Are you sure you want to delete this record??'))
                                     return false;" title="Delete" class="icon-2 info-tooltip">Delete</a>
-                        <a href="<?php echo base_url("designation/detail/{$val->designation_id}"); ?>" title="Detail" class="icon-5 info-tooltip">Detail</a>
+                        <a href="<?php echo base_url("department/detail/{$val->department_id}"); ?>" title="Detail" class="icon-5 info-tooltip">Detail</a>
                     </td>
                 </tr>
             <?php } ?> 
