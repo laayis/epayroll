@@ -7,36 +7,30 @@ class Dashboard extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-
-        if (!$this->ion_auth->logged_in()) {
-            redirect('auth', 'refresh');
+        $admin_userdata = $this->session->userdata(APP_PFIX . 'admin');
+        if (!$admin_userdata['logged_in_admin']) {
+            $this->session->set_flashdata('errorlogin', "You must log in!");
+            redirect('login/index');
         }
+        $this->load->model('rbac/rbacmodel');
     }
 
     function index() {
-
+//        if (!$this->rbacmodel->checkPermission()) {
+//            $main_content = 'insufficientpermission/insufficientpermission';
+//            $wrapper = 'error_wrapper';
+//        } else {
         $main_content = 'dashboard';
         $wrapper = 'admin_wrapper';
-        $data['main_content'] = $main_content;
-        $this->load->view($wrapper, $data);
-    }
-    function employeedash(){
-        $main_content = 'dashboard';
-        $wrapper = 'employee_wrapper';
         $data['main_content'] = $main_content;
         $this->load->view($wrapper, $data);
     }
 
     function logout() {
 
-        $this->data['title'] = "Logout";
-
-        //log the user out
-        $logout = $this->ion_auth->logout();
-
-        //redirect them to the login page
-        $this->session->set_flashdata('message', $this->ion_auth->messages());
-        redirect('auth/login', 'refresh');
+        //log the employee out
+        $this->session->unset_userdata(APP_PFIX . 'admin');
+        redirect('login', 'refresh');
     }
 
 }

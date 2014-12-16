@@ -3,29 +3,34 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Department extends Admin_Controller {
+class Allowances extends Admin_Controller {
 
     protected $wrapper;
     
     public $validation_rules = array(
 
-        'department_name' => array(
-            'field' => 'department_name',
-            'label' => 'Department Name',
+        'allowances_name' => array(
+            'field' => 'allowances_type',
+            'label' => 'Allowances Type',
             'rules' => 'trim|required|max_length[100]'
         ),
-        'department_code' => array(
-            'field' => 'department_code',
-            'label' => 'Department Code',
+        'allowances_code' => array(
+            'field' => 'allowances_amount',
+            'label' => 'Allowances Amount',
             'rules' => 'trim|required|max_length[100]'
         ),
     );
 
     public function __construct() {
         parent::__construct();
+        $admin_userdata = $this->session->userdata(APP_PFIX . 'admin');
+        if (!$admin_userdata['logged_in_admin']) {
+            $this->session->set_flashdata('errorlogin', "You must log in!");
+            redirect('login/index');
+        }
          $this->load->library('gcacl');
          
-        $this->load->model('department_m');
+        $this->load->model('allowances_m');
 
         $this->wrapper = 'admin_wrapper';
     }
@@ -33,7 +38,7 @@ class Department extends Admin_Controller {
     public function detail($id) {
         $data = array(
             'main_content' => 'view',
-            'data' => $this->department_m->get($id)
+            'data' => $this->allowances_m->get($id)
         );
         $this->load->view('admin_wrapper', $data);
     }
@@ -42,7 +47,7 @@ class Department extends Admin_Controller {
         //$this->gcacl->hasPermission('attribute_index') != TRUE ? redirect(ADMIN_BASE_URL) : '';
         $data = array(
             'main_content' => 'list',
-            'record' => $this->department_m->get(),
+            'record' => $this->allowances_m->get(),
         );
 
         $this->load->view('admin_wrapper', $data);
@@ -60,14 +65,14 @@ class Department extends Admin_Controller {
                 $fields[] = $v['field'];
             }
 //            $fields = array('title', 'slug', 'description', 'date', 'description', 'url', 'status');
-            $data = $this->department_m->array_from_post($fields);
+            $data = $this->allowances_m->array_from_post($fields);
 
-            if ($this->department_m->save($data)) {
-                $this->session->set_flashdata('success', 'New Department Added Successfully.');
+            if ($this->allowances_m->save($data)) {
+                $this->session->set_flashdata('success', 'New Allowances Added Successfully.');
             } else {
-                $this->session->set_flashdata('error', 'sorry, Department cannot be Added.');
+                $this->session->set_flashdata('error', 'sorry, Allowances cannot be Added.');
             }
-            redirect('department/add/', 'refresh');
+            redirect('allowances/add/', 'refresh');
         } else {
             $clinics = new stdClass();
             // Go through all the known fields and get the post values
@@ -88,7 +93,7 @@ class Department extends Admin_Controller {
         //$this->gcacl->hasPermission('disease_edit') != TRUE ? redirect(ADMIN_BASE_URL) : '';
         $this->load->helper('ckeditor'); // for loading ckeditor
 
-        $event = $this->department_m->get($id);
+        $event = $this->allowances_m->get($id);
 
         $this->load->library('form_validation');
         $this->form_validation->set_rules($this->validation_rules);
@@ -98,15 +103,15 @@ class Department extends Admin_Controller {
             foreach ($this->validation_rules as $k => $v) {
                 $fields[] = $v['field'];
             }
-            $data = $this->department_m->array_from_post($fields);
+            $data = $this->allowances_m->array_from_post($fields);
 
-            if ($this->department_m->save($data, $id)) {
-                $this->session->set_flashdata('success', 'Department edited Successfully.');
+            if ($this->allowances_m->save($data, $id)) {
+                $this->session->set_flashdata('success', 'Allowances edited Successfully.');
             } else {
-                $this->session->set_flashdata('error', 'sorry, Department cannot be Added.');
+                $this->session->set_flashdata('error', 'sorry, Allowances cannot be Added.');
             }
             
-            redirect('department/index', 'refresh');
+            redirect('allowances/index', 'refresh');
         }
 
         $data = array(
@@ -122,14 +127,14 @@ class Department extends Admin_Controller {
      */
     public function delete($id) {
         //$this->gcacl->hasPermission('user_delete') != TRUE ? redirect(ADMIN_BASE_URL) : '';
-       if($this->db->delete('department', array('department_id' => $id))){
+       if($this->db->delete('allowances', array('allowances_id' => $id))){
             
             $this->session->set_flashdata( 'sucess', 'Sucessfully deleted' );
        }else{
            $this->session->set_flashdata( 'error', 'Can\'t delete .' );
 
        }
-        redirect( 'department/', 'refresh' );
+        redirect( 'allowances/', 'refresh' );
     }
 
     /**
@@ -138,13 +143,13 @@ class Department extends Admin_Controller {
     public function bulk_delete_images() {
         $ids = $this->input->post('id');
         if ($ids) {
-            if ($deleted_count = $this->department_m->delete_images($ids)) {
+            if ($deleted_count = $this->allowances_m->delete_images($ids)) {
                 $this->session->set_flashdata('success', sprintf('Selected Record(s) %s of %s deleted successfully.', $deleted_count, count($ids)));
             } else {
                 $this->session->set_flashdata('error', 'Sorry, record(s) delete failed. Please try again later.');
             }
         }
-        redirect('department/index', 'refresh'); // . $uripart
+        redirect('allowances/index', 'refresh'); // . $uripart
     }
 
     /*
@@ -156,14 +161,14 @@ class Department extends Admin_Controller {
         $status = ($task == 'activate') ? '1' : '0';
         $id = $this->uri->segment(4);
 
-        $flag = $this->department_m->changeStatus($id, $status);
+        $flag = $this->allowances_m->changeStatus($id, $status);
 
         if ($flag) {
             $this->session->set_flashdata('success', 'Record ' . ucfirst($task) . 'd' . ' Successfully.');
         } else
             $this->session->set_flashdata('error', 'Status operation failed. Please try again later.');
 
-        redirect('department/index', 'refresh'); //. $uripart
+        redirect('allowances/index', 'refresh'); //. $uripart
     }
 
     /*
@@ -175,14 +180,14 @@ class Department extends Admin_Controller {
         $status = ($task == 'activate') ? '1' : '0';
         $id = $this->input->post('id');
 
-        $flag = $this->department_m->changeStatus($id, $status);
+        $flag = $this->allowances_m->changeStatus($id, $status);
 
         if ($flag) {
             $this->session->set_flashdata('success', 'Record ' . ucfirst($task) . 'd' . ' Successfully.');
         } else
             $this->session->set_flashdata('error', 'Status operation failed. Please try again later.');
 
-        redirect('department/index', 'refresh'); //. $uripart
+        redirect('allowances/index', 'refresh'); //. $uripart
     }
 
   

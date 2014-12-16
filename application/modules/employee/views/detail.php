@@ -1,23 +1,9 @@
-<!-- Page Header -->
 <div class="page-header position-relative">
     <div class="header-title">
         <h1>
-            Profile
+            Employee Profile
         </h1>
     </div>
-    <!--Header Buttons-->
-    <div class="header-buttons">
-        <a class="sidebar-toggler" href="#">
-            <i class="fa fa-arrows-h"></i>
-        </a>
-        <a class="refresh" id="refresh-toggler" href="">
-            <i class="glyphicon glyphicon-refresh"></i>
-        </a>
-        <a class="fullscreen" id="fullscreen-toggler" href="#">
-            <i class="glyphicon glyphicon-fullscreen"></i>
-        </a>
-    </div>
-    <!--Header Buttons End-->
 </div>
 <!-- /Page Header -->
 <!-- Page Body -->
@@ -30,20 +16,20 @@
                         <img src="<?php echo base_url() ?>assets/img/no-img.jpeg" alt="" class="header-avatar" />
                     </div>
                     <div class="col-lg-4 col-md-8 col-sm-12 profile-info">
-                        <div class="profile-username"><?php echo $info->fname ?>&nbsp;<?php echo $info->mname ?>&nbsp;<?php echo $info->lname ?></div>
+                        <div class="profile-username"><?php echo $info->first_name ?>&nbsp;<?php echo $info->last_name ?></div>
                         <div class="header-information">
-                            <div style="color: #1EA076;font-size: 22px;font-family: serif;line-height: 40px;"><i class="fa fa-sort-amount-desc"></i> Department : Human Resources</div>                                    
-                            <div style="color:#FD5042;font-size: 22px;font-family: serif;line-height: 40px;"><i class="fa fa-users"></i> Designation : Developer</div>
-                            <div class="phoneno-display" style="color:#448ACC;font-size: 24px;font-family: serif;line-height: 40px;"><i class="fa fa-mobile"></i> 9803765979</div>
+                            <div style="color: #1EA076;font-size: 22px;font-family: serif;line-height: 40px;"><i class="fa fa-sort-amount-desc"></i> Department : <?php echo $info->department_name; ?></div>                                    
+                            <div style="color:#FD5042;font-size: 22px;font-family: serif;line-height: 40px;"><i class="fa fa-users"></i> Designation : <?php echo $info->designation_name; ?></div>
+                            <div class="phoneno-display" style="color:#448ACC;font-size: 24px;font-family: serif;line-height: 40px;"><i class="fa fa-mobile"></i> <?php echo $info->phone; ?></div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 profile-stats">
                         <div class="row" style="margin: 210px 0 0 0">
                             <ul class="button-display">
-                                <li><a class="btn btn-default btnradious" href="index.php"><i class="fa fa-angle-double-left"></i> Back</a></li>
+                                <li><a class="btn btn-default btnradious" href="index.php" onclick="history.back()"><i class="fa fa-angle-double-left"></i> Back</a></li>
                                 <li><a id="pdf" class="btn btn-pdf" target="_blank" href="#ExportToPdf?id=1"><i class="fa fa-file-pdf-o"></i> PDF</a></li>
-                                <li><a class="btn btn-edit" id="updateData" href="<?php echo site_url('user/edit/' . $info->ID); ?>"><i class="fa fa-wrench"></i> Edit</a></li>
-                                <li><a class="btn btn-delete btnradious-last" href="<?php echo site_url('user/delete') . $info->ID; ?>" onclick="if (!confirm('Are you sure you want to delete this record??'))return false;"><i class="fa fa-trash-o"></i> Delete</a></li>
+                                <li><a class="btn btn-edit" id="updateData" href="<?php echo site_url('employee/edit/' . $info->ID); ?>"><i class="fa fa-wrench"></i> Edit</a></li>
+                                <li><a class="btn btn-delete btnradious-last" href="<?php echo site_url('employee/delete/' . $info->ID); ?>"><i class="fa fa-trash-o"></i> Delete</a></li>
                             </ul>
                         </div>
                     </div>

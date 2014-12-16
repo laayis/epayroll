@@ -20,7 +20,7 @@ class Loginmodel extends CI_Model {
         $this->db->select('ID');
         $this->db->where('username', $this->input->post('username', TRUE));
         $this->db->where('password', do_hash($this->input->post('password', TRUE), 'md5'));
-        $query = $this->db->get('users');
+        $query = $this->db->get('employee');
         if ($query->num_rows() > 0) {
             $row = $query->row();
 //            $data = array(

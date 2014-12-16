@@ -14073,3 +14073,120 @@ tr.fc-last td {
     text-align:center;
     width:100%;
 }
+
+/* select2 style overide */
+.select2-choice{
+border: none !important;
+width: 100% !important;
+border-radius: 0px !important;
+background-color: #FFF !important;
+background-image: none !important;
+}
+
+
+.select2-container{
+	padding:3px !important;
+}
+
+.select2-arrow{
+background-image: none !important;
+background: #FFF !important;
+border: none !important;
+}
+
+.select2-drop-active {
+/*border: 1px solid black !important;*/
+border-top: none !important;
+background: #f0f0f0 !important;
+}
+
+.logTime{
+	font-weight: bold;
+	font-size: 13px;
+	font-style: italic;
+}
+
+.popupForm{
+	border: none !important;
+	padding: 0px 19px 14px !important;
+}
+
+
+/*
+    Component: Small boxes
+*/
+.small-box {
+  position: relative;
+  display: block;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  margin-bottom: 15px;
+  color: #fff;
+}
+.small-box > .inner {
+  padding: 10px;
+}
+.small-box > .small-box-footer {
+  position: relative;
+  text-align: center;
+  padding: 3px 0;
+  color: #fff;
+  color: rgba(255, 255, 255, 0.8);
+  display: block;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+.small-box > .small-box-footer:hover {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.15);
+}
+.small-box h3 {
+  font-size: 38px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  white-space: nowrap;
+  padding: 0;
+}
+.small-box p {
+  font-size: 15px;
+}
+.small-box p > small {
+  display: block;
+  color: #f9f9f9;
+  font-size: 13px;
+  margin-top: 5px;
+}
+.small-box h3,
+.small-box p {
+  z-index: 5px;
+}
+
+@keyframes tansformAnimation {
+  from {
+    font-size: 90px;
+  }
+  to {
+    font-size: 100px;
+  }
+}
+@-webkit-keyframes tansformAnimation {
+  from {
+    font-size: 90px;
+  }
+  to {
+    font-size: 100px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .small-box {
+    text-align: center;
+  }
+  .small-box .icon {
+    display: none;
+  }
+  .small-box p {
+    font-size: 12px;
+  }
+}

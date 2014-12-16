@@ -1,0 +1,2685 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>IceHRM</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <link href="http://localhost:81/icehrm/themecss/bootstrap.min.css" rel="stylesheet">
+        <link href="http://localhost:81/icehrm/themecss/font-awesome.min.css" rel="stylesheet">
+        <link href="http://localhost:81/icehrm/themecss/ionicons.min.css" rel="stylesheet">
+
+
+
+
+        <script type="text/javascript" src="http://localhost:81/icehrm/js/jquery2.0.2.min.js"></script>
+
+        <script src="http://localhost:81/icehrm/themejs/bootstrap.js"></script>
+        <script src="http://localhost:81/icehrm/js/jquery.placeholder.js"></script>
+
+
+        <script src="http://localhost:81/icehrm/js/bootstrap-datepicker.js"></script>
+        <script src="http://localhost:81/icehrm/js/jquery.timepicker.js"></script>
+        <script src="http://localhost:81/icehrm/js/bootstrap-datetimepicker.js"></script>
+        <script src="http://localhost:81/icehrm/js/fullcalendar.min.js"></script>
+        <script src="http://localhost:81/icehrm/js/select2/select2.min.js"></script>
+
+
+
+        <link href="http://localhost:81/icehrm/themecss/datatables/dataTables.bootstrap.css" rel="stylesheet">
+        <link href="http://localhost:81/icehrm/css/jquery.timepicker.css" rel="stylesheet">
+        <link href="http://localhost:81/icehrm/css/datepicker.css" rel="stylesheet">
+        <link href="http://localhost:81/icehrm/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+        <link href="http://localhost:81/icehrm/css/fullcalendar.css" rel="stylesheet">
+        <link href="http://localhost:81/icehrm/js/select2/select2.css" rel="stylesheet">
+
+        <link href="http://localhost:81/icehrm/themecss/AdminLTE.css" rel="stylesheet">
+
+        <script src="http://localhost:81/icehrm/themejs/plugins/datatables/jquery.dataTables.js"></script>
+        <script src="http://localhost:81/icehrm/themejs/plugins/datatables/dataTables.bootstrap.js"></script>
+        <script src="http://localhost:81/icehrm/themejs/AdminLTE/app.js"></script>
+
+
+        <link href="http://localhost:81/icehrm/css/style.css?v=7.0.1" rel="stylesheet">
+
+
+        <script type="text/javascript" src="http://localhost:81/icehrm/js/date.js"></script>
+        <script type="text/javascript" src="http://localhost:81/icehrm/js/json2.js"></script>
+        <script type="text/javascript" src="http://localhost:81/icehrm/js/CrockfordInheritance.v0.1.js"></script>
+
+        <script type="text/javascript" src="http://localhost:81/icehrm/api/Base.js?v=7.0.1"></script>
+        <script type="text/javascript" src="http://localhost:81/icehrm/api/AdapterBase.js?v=7.0.1"></script>
+        <script type="text/javascript" src="http://localhost:81/icehrm/api/FormValidation.js?v=7.0.1"></script>
+        <script type="text/javascript" src="http://localhost:81/icehrm/api/Notifications.js?v=7.0.1"></script>
+        <script type="text/javascript" src="http://localhost:81/icehrm/api/TimeUtils.js?v=7.0.1"></script>
+        <script type="text/javascript" src="http://localhost:81/icehrm//admin/employees/lib.js?v=7.0.1"></script>	
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+        <script>
+            var baseUrl = 'http://localhost:81/icehrm/app/service.php';
+        </script>
+
+
+    </head>
+    <body class="skin-blue">
+        <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-48048570-2', 'icehrm.com');
+            ga('send', 'pageview');
+
+        </script>
+        <script type="text/javascript">
+
+            var uploadId = "";
+            var uploadAttr = "";
+            var popupUpload = null;
+
+            function showUploadDialog(id, msg, group, user, postUploadId, postUploadAttr, postUploadResultAttr, fileType) {
+                var ts = Math.round((new Date()).getTime() / 1000);
+                uploadId = postUploadId;
+                uploadAttr = postUploadAttr;
+                uploadResultAttr = postUploadResultAttr;
+                var html = '<div><iframe src="http://localhost:81/icehrm/app/fileupload_page.php?id=_id_&msg=_msg_&file_group=_file_group_&file_type=_file_type_&user=_user_" frameborder="0" scrolling="no" width="300px" height="55px"></iframe></div>';
+                var html = html.replace(/_id_/g, id);
+                var html = html.replace(/_msg_/g, msg);
+                var html = html.replace(/_file_group_/g, group);
+                var html = html.replace(/_user_/g, user);
+                var html = html.replace(/_file_type_/g, fileType);
+
+                modJs.renderModel('upload', "Upload File", html);
+                $('#uploadModel').modal('show');
+
+            }
+
+            function closeUploadDialog(success, error, data) {
+                var arr = data.split("|");
+                var file = arr[0];
+                var fileBaseName = arr[1];
+                var fileId = arr[2];
+
+                if (success == 1) {
+                    //popupUpload.close();
+                    $('#uploadModel').modal('hide');
+                    if (uploadResultAttr == "url") {
+                        if (uploadAttr == "val") {
+                            $('#' + uploadId).val(file);
+                        } else if (uploadAttr == "html") {
+                            $('#' + uploadId).html(file);
+                        } else {
+                            $('#' + uploadId).attr(uploadAttr, file);
+                        }
+
+                    } else if (uploadResultAttr == "name") {
+                        if (uploadAttr == "val") {
+                            $('#' + uploadId).val(fileBaseName);
+                        } else if (uploadAttr == "html") {
+                            $('#' + uploadId).html(fileBaseName);
+                            $('#' + uploadId).attr("val", fileBaseName);
+                        } else {
+                            $('#' + uploadId).attr(uploadAttr, fileBaseName);
+                        }
+                        $('#' + uploadId).show();
+                        $('#' + uploadId + "_download").show();
+                    } else if (uploadResultAttr == "id") {
+                        if (uploadAttr == "val") {
+                            $('#' + uploadId).attr(uploadAttr, fileId);
+                        } else if (uploadAttr == "html") {
+                            $('#' + uploadId).html(fileBaseName);
+                            $('#' + uploadId).attr("val", fileId);
+                        } else {
+                            $('#' + uploadId).attr(uploadAttr, fileId);
+                        }
+                        $('#' + uploadId).show();
+                        $('#' + uploadId + "_download").show();
+                    }
+
+
+                } else {
+                    //popupUpload.close();
+                    $('#uploadModel').modal('hide');
+                }
+
+            }
+
+            function download(name, closeCallback, closeCallbackData) {
+
+                var successCallback = function (data) {
+                    var link = '<a href="' + modJs.getCustomActionUrl("download", {'file': data['filename']}) + '" target="_blank">Download File <i class="icon-download-alt"></i> </a>';
+                    var fileParts = data['filename'].split(".");
+                    var viewableImages = ["png", "jpg", "gif", "bmp", "jpge"];
+                    if (jQuery.inArray(fileParts[fileParts.length - 1], viewableImages) >= 0) {
+                        link += '<br/><br/><img style="max-width:545px;max-height:350px;" src="' + modJs.getClientDataUrl() + data['filename'] + '"/>';
+                    }
+                    modJs.showMessage("Download File Attachment", link, closeCallback, closeCallbackData);
+                };
+
+                var failCallback = function (data) {
+                    modJs.showMessage("Error Downloading File", "File not found");
+                };
+
+                modJs.sendCustomRequest("file", {'name': name}, successCallback, failCallback);
+            }
+
+            function randomString(length) {
+                var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
+
+                if (!length) {
+                    length = Math.floor(Math.random() * chars.length);
+                }
+
+                var str = '';
+                for (var i = 0; i < length; i++) {
+                    str += chars[Math.floor(Math.random() * chars.length)];
+                }
+                return str;
+            }
+        </script>
+
+        <header id="delegationDiv" class="header">
+            <a href="http://localhost:81/icehrm/app/?g=admin&n=company_structure&m=admin_Admin" class="logo" style="font-family: 'Source Sans Pro', sans-serif;">
+                Ice Hrm   
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav">
+
+                        <li class="dropdown messages-menu" id="notifications" style="display: none;"></li>
+
+                        <li class="user user-menu">
+                            <a href="#" onclick="$('#employeeSwitchModal').modal();
+                                    return false;" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="glyphicon glyphicon-new-window"></i>
+                                <span>Switch Employee</span>
+                            </a>
+                        </li>
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="glyphicon glyphicon-user"></i>
+                                <span>IceHrm <i class="caret"></i></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header bg-light-blue">
+                                    <img src="http://localhost:81/icehrm/images/user_male.png" class="img-circle" alt="User Image" />
+                                    <p>
+                                        IceHrm Employee                                        <!--  
+                                        <small>Member since Nov. 2012</small>
+                                        -->
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <!--  
+                                <li class="user-body">
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Followers</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Sales</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Friends</a>
+                                    </div>
+                                </li>
+                                -->
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="http://localhost:81/icehrm/app/?g=modules&n=employees" class="btn btn-default btn-flat">Profile</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="http://localhost:81/icehrm/app/logout.php" class="btn btn-default btn-flat">Sign out</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown messages-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="glyphicon glyphicon-question-sign"></i>
+                                <span>Help</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a target="_bloank" href="http://blog.icehrm.com/"><h5>Administrators' Guide</h5></a>
+                                    <a target="_bloank" href="https://bitbucket.org/thilina/icehrm-opensource/issues?status=new&status=open"><h5>Support/Bug Reporting</h5></a>
+                                    <a href="#" onclick="modJs.showMessage('About', '<p>iCE Hrm - Human Resource Management<br/>Version 7.1<br/>Release Date: 2014/11/02</p>')"><h5>About</h5></a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div class="wrapper row-offcanvas row-offcanvas-left">
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="left-side sidebar-offcanvas">                
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- Sidebar user panel -->
+                    <div class="user-panel">
+                        <div class="pull-left image">
+                            <img src="http://localhost:81/icehrm/images/user_male.png" class="img-circle" alt="User Image" />
+                        </div>
+                        <div class="pull-left info">
+                            <p>IceHrm Employee</p>
+
+                            <a href="#"><i class="fa fa-circle text-success"></i> Logged In</a>
+                        </div>
+                    </div>
+
+                    <ul class="sidebar-menu">
+
+
+
+                        <li  class="treeview" ref="admin_Admin">			       
+                            <a href="#">
+                                <i class="fa fa-th"></i></i> <span>Admin</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+
+                            <ul class="treeview-menu" id="admin_Admin">
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=admin&n=company_structure&m=admin_Admin">
+                                        <i class="fa fa-angle-double-right"></i> Company Structure					            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=admin&n=attendance&m=admin_Admin">
+                                        <i class="fa fa-angle-double-right"></i> Monitor Attendance					            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=admin&n=employees&m=admin_Admin">
+                                        <i class="fa fa-angle-double-right"></i> Employees					            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=admin&n=jobs&m=admin_Admin">
+                                        <i class="fa fa-angle-double-right"></i> Jobs					            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=admin&n=qualifications&m=admin_Admin">
+                                        <i class="fa fa-angle-double-right"></i> Qualifications					            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=admin&n=projects&m=admin_Admin">
+                                        <i class="fa fa-angle-double-right"></i> Projects					            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=admin&n=documents&m=admin_Admin">
+                                        <i class="fa fa-angle-double-right"></i> Document Management					            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=admin&n=loans&m=admin_Admin">
+                                        <i class="fa fa-angle-double-right"></i> Company Loans					            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=admin&n=leaves&m=admin_Admin">
+                                        <i class="fa fa-angle-double-right"></i> Leaves					            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=admin&n=leavecal&m=admin_Admin">
+                                        <i class="fa fa-angle-double-right"></i> Leave Calendar					            			</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li  class="treeview" ref="admin_Reports">			       
+                            <a href="#">
+                                <i class="fa fa-th"></i></i> <span>Reports</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+
+                            <ul class="treeview-menu" id="admin_Reports">
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=admin&n=reports&m=admin_Reports">
+                                        <i class="fa fa-angle-double-right"></i> Reports					            			</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li  class="treeview" ref="admin_System">			       
+                            <a href="#">
+                                <i class="fa fa-th"></i></i> <span>System</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+
+                            <ul class="treeview-menu" id="admin_System">
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=admin&n=settings&m=admin_System">
+                                        <i class="fa fa-angle-double-right"></i> Settings					            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=admin&n=users&m=admin_System">
+                                        <i class="fa fa-angle-double-right"></i> Users					            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=admin&n=modules&m=admin_System">
+                                        <i class="fa fa-angle-double-right"></i> Manage Modules					            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=admin&n=permissions&m=admin_System">
+                                        <i class="fa fa-angle-double-right"></i> Manage Permissions					            			</a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+
+
+                        <li  class="treeview" ref="module_Personal_Information">			       
+                            <a href="#">
+                                <i class="fa fa-th"></i></i> <span>Personal Information</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+
+                            <ul class="treeview-menu" id="module_Personal_Information">
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=modules&n=employees&m=module_Personal_Information">
+                                        <i class="fa fa-angle-double-right"></i> Basic Information				            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=modules&n=dashboard&m=module_Personal_Information">
+                                        <i class="fa fa-angle-double-right"></i> Dashboard				            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=modules&n=qualifications&m=module_Personal_Information">
+                                        <i class="fa fa-angle-double-right"></i> Qualifications				            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=modules&n=salary&m=module_Personal_Information">
+                                        <i class="fa fa-angle-double-right"></i> Salary				            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=modules&n=dependents&m=module_Personal_Information">
+                                        <i class="fa fa-angle-double-right"></i> Dependents				            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=modules&n=emergency_contact&m=module_Personal_Information">
+                                        <i class="fa fa-angle-double-right"></i> Emergency Contacts				            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=modules&n=immigrations&m=module_Personal_Information">
+                                        <i class="fa fa-angle-double-right"></i> Immigrations				            			</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li  class="treeview" ref="module_Employees">			       
+                            <a href="#">
+                                <i class="fa fa-th"></i></i> <span>Employees</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+
+                            <ul class="treeview-menu" id="module_Employees">
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=modules&n=subordinates&m=module_Employees">
+                                        <i class="fa fa-angle-double-right"></i> Subordinates				            			</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li  class="treeview" ref="module_Leaves">			       
+                            <a href="#">
+                                <i class="fa fa-th"></i></i> <span>Leaves</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+
+                            <ul class="treeview-menu" id="module_Leaves">
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=modules&n=leaves&m=module_Leaves">
+                                        <i class="fa fa-angle-double-right"></i> Leave Management				            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=modules&n=leavecal&m=module_Leaves">
+                                        <i class="fa fa-angle-double-right"></i> Leave Calendar				            			</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li  class="treeview" ref="module_Time_Management">			       
+                            <a href="#">
+                                <i class="fa fa-th"></i></i> <span>Time Management</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+
+                            <ul class="treeview-menu" id="module_Time_Management">
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=modules&n=projects&m=module_Time_Management">
+                                        <i class="fa fa-angle-double-right"></i> Projects				            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=modules&n=attendance&m=module_Time_Management">
+                                        <i class="fa fa-angle-double-right"></i> Attendance				            			</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=modules&n=time_sheets&m=module_Time_Management">
+                                        <i class="fa fa-angle-double-right"></i> Time Sheets				            			</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li  class="treeview" ref="module_Documents">			       
+                            <a href="#">
+                                <i class="fa fa-th"></i></i> <span>Documents</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+
+                            <ul class="treeview-menu" id="module_Documents">
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=modules&n=documents&m=module_Documents">
+                                        <i class="fa fa-angle-double-right"></i> My Documents				            			</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li  class="treeview" ref="module_Loans">			       
+                            <a href="#">
+                                <i class="fa fa-th"></i></i> <span>Loans</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+
+                            <ul class="treeview-menu" id="module_Loans">
+                                <li>
+                                    <a href="http://localhost:81/icehrm/app/?g=modules&n=loans&m=module_Loans">
+                                        <i class="fa fa-angle-double-right"></i> Loans				            			</a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+
+
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+
+            <!-- Right side column. Contains the navbar and content of the page -->
+            <aside class="right-side">                
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <h1>
+                        Employees                        <small>
+                            Admin&nbsp;&nbsp;
+                            <a href="#" class="helpLink" target="_blank" style="display:none;"><i class="glyphicon glyphicon-question-sign"></i></a>
+                        </small>
+
+                    </h1>
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+
+
+                    <script type="text/javascript" src="http://localhost:81/icehrm//admin/employees/lib.js?v=7.0.1"></script><div class="span9">
+
+                        <ul class="nav nav-tabs" id="modTab" style="margin-bottom:0px;margin-left:5px;border-bottom: none;">
+                            <li class="active"><a id="tabEmployee" href="#tabPageEmployee">Employees</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tabPageEmployee">
+                                <div id="Employee" class="reviewBlock" data-content="List" style="padding-left:5px;">
+
+                                </div>
+                                <div id="EmployeeForm" class="reviewBlock" data-content="Form" style="padding-left:5px;display:none;">
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <script>
+                                        var modJsList = new Array();
+                                        modJsList['tabEmployee'] = new EmployeeAdapter('Employee');
+                                        modJsList['tabEmployee'].setRemoteTable(true);
+
+                                        var modJs = modJsList['tabEmployee'];
+
+                    </script>
+                </section><!-- /.content -->
+            </aside><!-- /.right-side -->
+        </div><!-- ./wrapper -->
+        <script type="text/javascript">
+
+
+
+            for (var prop in modJsList) {
+                if (modJsList.hasOwnProperty(prop)) {
+                    modJsList[prop].setPermissions([]);
+                    modJsList[prop].setFieldTemplates({"hidden": "<input type=\"hidden\" id=\"_id_\" name=\"_id_\" value=\"\" style=\"display:none;\"\/>", "text": "<div class=\"row\" id=\"field__id_\">\r\n\t<label class=\"col-sm-3 control-label\" for=\"_id_\">_label_<\/label>\r\n\t<div class=\"controls col-sm-6\">\r\n\t\t<input class=\"form-control\" type=\"text\" id=\"_id_\" name=\"_id_\" value=\"\" _validation_\/>\r\n\t<\/div>\r\n\t<div class=\"controls col-sm-3\">\r\n\t\t<span class=\"help-inline control-label\" id=\"help__id_\"><\/span>\r\n\t<\/div>\r\n<\/div>", "textarea": "<div class=\"row\" id=\"field__id_\">\r\n\t<label class=\"control-label col-sm-3\" for=\"_id_\">_label_<\/label>\r\n\t<div class=\"controls col-sm-6\">\r\n\t\t<textarea class=\"form-control\" type=\"textarea\" rows=\"4\" id=\"_id_\" name=\"_id_\" _validation_><\/textarea>\r\n\t<\/div>\r\n\t<div class=\"controls col-sm-3\">\r\n\t\t<span class=\"help-inline control-label\" id=\"help__id_\"><\/span>\r\n\t<\/div>\r\n<\/div>", "select": "<div class=\"row\" id=\"field__id_\">\r\n\t<label class=\"control-label col-sm-3\" for=\"_id_\">_label_<\/label>\r\n\t<div class=\"controls col-sm-6\">\r\n\t\t<select type=\"select-one\" class=\"form-control\" id=\"_id_\" name=\"_id_\" _validation_>\r\n\t  \t_options_\r\n\t  \t<\/select>\r\n\t<\/div>\r\n\t<div class=\"controls col-sm-3\">\r\n\t\t<span class=\"help-inline control-label\" id=\"help__id_\"><\/span>\r\n\t<\/div>\r\n<\/div>", "select2": "<div class=\"row\" id=\"field__id_\">\r\n\t<label class=\"control-label col-sm-3\" for=\"_id_\">_label_<\/label>\r\n\t<div class=\"controls col-sm-6\">\r\n\t\t<select type=\"select-one\" class=\"form-control select2Field\" id=\"_id_\" name=\"_id_\" _validation_>\r\n\t  \t_options_\r\n\t  \t<\/select>\r\n\t<\/div>\r\n\t<div class=\"controls col-sm-3\">\r\n\t\t<span class=\"help-inline control-label\" id=\"help__id_\"><\/span>\r\n\t<\/div>\r\n<\/div>", "date": "<div class=\"row\" id=\"field__id_\">\r\n\t<label class=\"control-label col-sm-3\" for=\"_id_\">_label_<\/label>\r\n\t<div class=\"controls\">\r\n\t  \t\r\n\t  \t<span class=\"help-inline\" id=\"help__id_\"><\/span>\r\n\t<\/div>\r\n\t<div class=\"controls col-sm-6\">\r\n\t\t<div class=\"input-group date datefield\" id=\"_id__date\" name=\"_id__date\" data-date=\"\" data-date-format=\"yyyy-mm-dd\">\r\n\t\t\t<span class=\"add-on input-group-addon\"><i class=\"fa fa-calendar\"><\/i><\/span>\r\n  \t\t\t<input readonly=\"readonly\" id=\"_id_\" name=\"_id_\" class=\"form-control\" size=\"16\" type=\"text\" value=\"\" _validation_>\r\n  \t\t\t\r\n\t\t<\/div>\r\n\t<\/div>\r\n\t<div class=\"controls col-sm-3\">\r\n\t\t<span class=\"help-inline control-label\" id=\"help__id_\"><\/span>\r\n\t<\/div>\r\n<\/div>", "datetime": "<div class=\"row\" id=\"field__id_\">\r\n\t<label class=\"control-label col-sm-3\" for=\"_id_\">_label_<\/label>\r\n\t<div class=\"controls col-sm-6\">\r\n\t\t<div class=\"input-group input-append date datetimefield\" id=\"_id__datetime\" name=\"_id__datetime\" data-date=\"\" data-date-format=\"yyyy-MM-dd\">\r\n\t\t\t<span class=\"add-on input-group-addon\">\r\n\t\t      <i class=\"fa fa-clock-o\"><\/i>\r\n\t\t    <\/span>\r\n\t\t\t<input readonly=\"readonly\" data-format=\"yyyy-MM-dd hh:mm:ss\" class=\"datetimeInput form-control\" type=\"text\" id=\"_id_\" name=\"_id_\" size=\"16\" type=\"text\" value=\"\" _validation_><\/input>\r\n\t\t    \r\n\t\t<\/div>\r\n\t<\/div>\r\n\t<div class=\"controls col-sm-3\">\r\n\t\t<span class=\"help-inline control-label\" id=\"help__id_\"><\/span>\r\n\t<\/div>\r\n<\/div>\r\n", "time": "<div class=\"row\" id=\"field__id_\">\r\n\t<label class=\"control-label col-sm-3\" for=\"_id_\">_label_<\/label>\r\n\t<div class=\"controls col-sm-6\">\r\n\t\t<div class=\"input-group input-append date timefield\" id=\"_id__time\" name=\"_id__time\" data-date=\"\" data-date-format=\"yyyy-MM-dd\">\r\n\t\t\t<span class=\"add-on input-group-addon\">\r\n\t\t      <i class=\"fa fa-clock-o\"><\/i>\r\n\t\t    <\/span>\r\n\t\t\t<input readonly=\"readonly\" data-format=\"hh:mm:ss\" class=\"datetimeInput form-control\" type=\"text\" id=\"_id_\" name=\"_id_\" size=\"16\" type=\"text\" value=\"\" _validation_><\/input>\r\n\t\t    \r\n\t\t<\/div>\r\n\t<\/div>\r\n\t<div class=\"controls col-sm-3\">\r\n\t\t<span class=\"help-inline control-label\" id=\"help__id_\"><\/span>\r\n\t<\/div>\r\n<\/div>\r\n", "fileupload": "<div class=\"row\" id=\"field__id_\">\r\n\t<label class=\"control-label col-sm-3\" for=\"_id_\">_label_<\/label>\r\n\t<div class=\"controls col-sm-6\">\r\n\t\t<label id=\"_id_\" name=\"_id_\" type=\"fileupload\" class=\"control-label uploadInput\" style=\"display:none;\" _validation_><\/label>\r\n\t\t<button id=\"_id__download\" onclick=\"download($('#_id_').attr('val'));return false;\" class=\"btn btn-mini btn-inverse\" type=\"button\" style=\"margin-left:30px;margin-top:3px;display:none;\">Download<\/button>\r\n\t\t<button id=\"_id__upload\" onclick=\"showUploadDialog('_id___rand_','Upload Attachment','_group_',_userId_,'_id_','html','name','all');return false;\" class=\"btn btn-mini btn-inverse\" type=\"button\" style=\"margin-top:3px;\">Upload<\/button>\r\n\t<\/div>\r\n\t<div class=\"controls col-sm-3\">\r\n\t\t<span class=\"help-inline control-label\" id=\"help__id_\"><\/span>\r\n\t<\/div>\r\n<\/div>", "label": "<div class=\"row\" id=\"field__id_\">\r\n\t<label class=\"control-label col-sm-3\" for=\"_id_\">_label_<\/label>\r\n\t<div class=\"controls col-sm-6\">\r\n\t\t<input class=\"control-label\" id=\"_id_\"\/>\r\n\t<\/div>\r\n\t<div class=\"controls col-sm-3\">\r\n\t\t<span class=\"help-inline control-label\" id=\"help__id_\"><\/span>\r\n\t<\/div>\r\n<\/div>", "placeholder": "<div class=\"row\" id=\"field__id_\">\r\n\t<label class=\"control-label col-sm-3\" for=\"_id_\">_label_<\/label>\r\n\t<div class=\"controls col-sm-6\">\r\n\t\t<label id=\"_id_\" name=\"_id_\" style=\"text-align: left;\" class=\"control-label\" _validation_><\/label>\r\n\t<\/div>\r\n\t<div class=\"controls col-sm-3\">\r\n\t\t<span class=\"help-inline control-label\" id=\"help__id_\"><\/span>\r\n\t<\/div>\r\n<\/div>"});
+                    modJsList[prop].setTemplates({"formTemplate": "\r\n\t<form class=\"form-horizontal\" id=\"_id_\" role=\"form\">\r\n\t\t<div class=\"box-body\">\r\n\t\t\t<div class=\"control-group\">\r\n\t\t\t\t<div class=\"controls\">\r\n\t\t\t\t  \t<span class=\"label label-warning\" id=\"_id__error\" style=\"display:none;\"><\/span>\r\n\t\t\t\t<\/div>\r\n\t\t\t<\/div>\r\n\t\t\t_fields_\r\n\t\t\t<div class=\"control-group row\">\r\n\t\t    \t<div class=\"controls col-sm-9\">\r\n\t\t      \t\t<button onclick=\"try{modJs.save()}catch(e){};return false;\" class=\"saveBtn btn btn-primary pull-right\"><i class=\"fa fa-save\"><\/i> Save<\/button>\r\n\t\t      \t\t<button onclick=\"modJs.cancel();return false;\" class=\"cancelBtn btn pull-right\" style=\"margin-right:5px;\"><i class=\"fa fa-times-circle-o\"><\/i> Cancel<\/button>\r\n\t\t    \t<\/div>\r\n\t\t    \t<div class=\"controls col-sm-3\">\r\n\t\t    \t<\/div>\r\n\t\t  \t<\/div>\r\n\t\t<\/div>\r\n\t<\/form>\r\n", "filterTemplate": "\r\n\t<form class=\"form-horizontal\" id=\"_id_\" role=\"form\">\r\n\t\t<div class=\"box-body\">\r\n\t\t\t<div class=\"control-group\">\r\n\t\t\t\t<div class=\"controls\">\r\n\t\t\t\t  \t<span class=\"label label-warning\" id=\"_id__error\" style=\"display:none;\"><\/span>\r\n\t\t\t\t<\/div>\r\n\t\t\t<\/div>\r\n\t\t\t_fields_\r\n\t\t\t<div class=\"control-group row\">\r\n\t\t    \t<div class=\"controls col-sm-9\">\r\n\t\t      \t\t<button class=\"filterBtn btn btn-primary pull-right\"><i class=\"fa fa-filter\"><\/i> Filter<\/button>\r\n\t\t    \t<\/div>\r\n\t\t    \t<div class=\"controls col-sm-3\">\r\n\t\t    \t<\/div>\r\n\t\t  \t<\/div>\r\n\t\t<\/div>\r\n\t<\/form>\r\n"});
+                    modJsList[prop].setCustomTemplates([]);
+                    modJsList[prop].initFieldMasterData();
+                    modJsList[prop].setBaseUrl('http://localhost:81/icehrm/');
+                    modJsList[prop].setUser({"_table": "Users", "_dbat": "Users", "_tableat": "Users", "_where": "(username = ? or email = ?) and password = ?", "_saved": true, "_lasterr": false, "_original": ["1", "admin", "icehrm+admin@web-stalk.com", "a67760840e3b8f13d6f12a51f3666452", "1", "Admin", "2014-12-08 03:11:15", "2014-12-01 20:01:54", "2014-12-01 20:01:54"], "foreignName": "user", "id": "1", "username": "admin", "email": "icehrm+admin@web-stalk.com", "password": "a67760840e3b8f13d6f12a51f3666452", "employee": "1", "user_level": "Admin", "last_login": "2014-12-08 03:11:15", "last_update": "2014-12-01 20:01:54", "created": "2014-12-01 20:01:54"});
+                    modJsList[prop].setCurrentEmployee({"_table": "Employees", "_dbat": "Employees", "_tableat": "Employees", "_where": "id = ?", "_saved": true, "_lasterr": false, "_original": ["1", "EMP001", "IceHrm", "Sample", "Employee", "35", "1984-03-17 18:30:00", "Male", "Married", "", "294-38-3535", "294-38-3535", "", null, "3", "11", "2", "", "2772 Flynn Street", "Willoughby", "Willoughby", "US", "41", "44094", "440-953-4578", "440-953-4578", "440-953-4578", "icehrm+admin@web-stalk.com", "icehrm+admin@web-stalk.com", "2005-08-03 18:00:00", "0000-00-00 00:00:00", null, "1", null, null, null, null, null, null, null, null, null, null], "foreignName": "employee", "id": "1", "employee_id": "EMP001", "first_name": "IceHrm", "middle_name": "Sample", "last_name": "Employee", "nationality": "35", "birthday": "1984-03-17 18:30:00", "gender": "Male", "marital_status": "Married", "ssn_num": "", "nic_num": "294-38-3535", "other_id": "294-38-3535", "driving_license": "", "driving_license_exp_date": null, "employment_status": "3", "job_title": "11", "pay_grade": "2", "work_station_id": "", "address1": "2772 Flynn Street", "address2": "Willoughby", "city": "Willoughby", "country": "US", "province": "41", "postal_code": "44094", "home_phone": "440-953-4578", "mobile_phone": "440-953-4578", "work_phone": "440-953-4578", "work_email": "icehrm+admin@web-stalk.com", "private_email": "icehrm+admin@web-stalk.com", "joined_date": "2005-08-03 18:00:00", "confirmation_date": "0000-00-00 00:00:00", "supervisor": null, "department": "1", "custom1": null, "custom2": null, "custom3": null, "custom4": null, "custom5": null, "custom6": null, "custom7": null, "custom8": null, "custom9": null, "custom10": null, "image": "http:\/\/localhost:81\/icehrm\/images\/user_male.png"});
+                    modJsList[prop].setInstanceId('5d9d86e86ebdbca0272aed6443a1f17a');
+                    modJsList[prop].setGoogleAnalytics(ga);
+                    modJsList[prop].setNoJSONRequests('0');
+
+                }
+
+            }
+
+
+            //Other static js objects
+
+            var timeUtils = new TimeUtils();
+            timeUtils.setServerGMToffset('1');
+
+            var notificationManager = new NotificationManager();
+            notificationManager.setBaseUrl('http://localhost:81/icehrm/app/service.php');
+            notificationManager.setTimeUtils(timeUtils);
+
+            notificationManager.setTemplates({"notification": "<li>\r\n    <a href=\"#_url_#\">\r\n        <div class=\"pull-left\">\r\n            <img src=\"#_image_#\" class=\"img-circle\" alt=\"user image\">\r\n        <\/div>\r\n        <h4>\r\n            #_fromName_#\r\n            <small><i class=\"fa fa-clock-o\"><\/i>&nbsp;<span class=\"notificationTime\">#_time_#<\/span><\/small>\r\n        <\/h4>\r\n        <p style=\"margin-top:10px;\">#_message_#<\/p>\r\n    <\/a>\r\n<\/li>", "notifications": "<li class=\"dropdown messages-menu\">\r\n\t<a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">\r\n\t    <i class=\"fa fa-tasks\"><\/i>\r\n\t    <span class=\"label label-danger\">#_count_#<\/span>\r\n\t<\/a>\r\n\t<ul class=\"dropdown-menu\">\r\n\t    <li class=\"header\">#_header_#<\/li>\r\n\t    <li>\r\n\t        <!-- inner menu: contains the actual data -->\r\n\t        <ul class=\"menu\">\r\n\t        \t#_notifications_#\r\n\t        <\/ul>\r\n\t    <\/li>\r\n\t    <li class=\"footer\">\r\n\t    <!--  \r\n\t    <a href=\"#\">See All Messages<\/a>\r\n\t    -->\r\n\t    <\/li>\r\n\t<\/ul>\r\n<\/li>"});
+
+            //-----------------------
+
+
+            $(document).ready(function () {
+                $('#modTab a').click(function (e) {
+                    e.preventDefault();
+                    $(this).tab('show');
+                    modJs = modJsList[$(this).attr('id')];
+                    modJs.get([]);
+
+                    var helpLink = modJs.getHelpLink();
+                    if (helpLink != null && helpLink != undefined) {
+                        $('.helpLink').attr('href', helpLink);
+                        $('.helpLink').show();
+                    } else {
+                        $('.helpLink').hide();
+                    }
+                });
+
+                var tabName = window.location.hash.substr(1);
+
+                if (tabName != undefined && tabName != "" && modJsList[tabName] != undefined && modJsList[tabName] != null) {
+                    $("#" + tabName).click();
+                } else {
+                    modJs.get([]);
+                }
+
+
+                notificationManager.getNotifications();
+
+                $("#delegationDiv").on('click', "#notifications", function (e) {
+                    $(this).find('.label-danger').remove();
+                    notificationManager.clearPendingNotifications();
+
+                });
+
+                $("#switch_emp").select2();
+
+                var helpLink = modJs.getHelpLink();
+                if (helpLink != null && helpLink != undefined) {
+                    $('.helpLink').attr('href', helpLink);
+                    $('.helpLink').show();
+                } else {
+                    $('.helpLink').hide();
+                }
+
+            });
+            var clientUrl = 'http://localhost:81/icehrm/app/';
+
+            $(document).ready(function () {
+
+                $(".dataTables_paginate ul").addClass("pagination");
+
+                var refId = "";
+                refId = 'admin_Admin';
+                $("[ref = '" + refId + "'] a").first().click();
+            });
+
+        </script>
+        <!-- Delete Modal -->
+        <div class="modal fade" id="deleteModel" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">	
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><li class="fa fa-times"/></button>
+                        <h3 id="deleteModelLabel" style="font-size: 17px;"></h3>
+                    </div>
+                    <div class="modal-body">
+                        <p id="deleteModelBody"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" onclick="modJs.cancelDelete();">Cancel</button>
+                        <button class="btn btn-primary" onclick="modJs.confirmDelete();">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Delete Modal -->
+
+        <!-- Message Modal -->
+        <div class="modal fade" id="messageModel" tabindex="-1" role="dialog" aria-labelledby="messageModelLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">	
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><li class="fa fa-times"/></button>
+                        <h3 id="messageModelLabel" style="font-size: 17px;"></h3>
+                    </div>
+                    <div class="modal-body">
+                        <p id="messageModelBody"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" onclick="modJs.closeMessage();">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Message Modal -->
+
+        <!-- Plain Message Modal -->
+        <div class="modal fade" id="plainMessageModel" tabindex="-1" role="dialog" aria-labelledby="plainMessageModelLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">	
+                    <div class="modal-header" style="border-bottom:none;/*background-color: #3c8dbc;*/">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="margin-top:-10px;"><li class="fa fa-times"/></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="plainMessageModelBody"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Plain Message Modal -->
+
+        <!-- Upload Modal -->
+        <div class="modal fade" id="uploadModel" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><li class="fa fa-times"/></button>
+                        <h3 id="uploadModelLabel" style="font-size: 17px;"></h3>
+                    </div>
+                    <div class="modal-body">
+                        <p id="uploadModelBody"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" onclick="modJs.closeMessage();">Upload File</button>
+                        <button class="btn" onclick="modJs.closeMessage();">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Upload Modal -->
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="employeeSwitchModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><li class="fa fa-times"/></button>
+                        <h3 id="myModalLabel">Switch Employee</h3>
+                    </div>
+                    <div class="modal-body">
+                        <p>Select the employee to Edit</p>
+                        <div style="border: solid 1px #EEE;">
+                            <select id="switch_emp" style="width:100%;">
+                                <!--
+                                <option value="-1">No Employee</option>
+                                -->
+                                <option value="1">IceHrm Employee</option>
+                                <option value="2">Ammar Shrestha</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                        <button class="btn btn-primary" onclick="modJs.setAdminEmployee($('#switch_emp').val());
+                                return false;">Switch</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <script type="text/javascript" charset="utf-8">
+            /* Default class modification */
+            $.extend($.fn.dataTableExt.oStdClasses, {
+                "sSortAsc": "header headerSortDown",
+                "sSortDesc": "header headerSortUp",
+                "sSortable": "header"
+            });
+
+            /* API method to get paging information */
+            $.fn.dataTableExt.oApi.fnPagingInfo = function (oSettings)
+            {
+                return {
+                    "iStart": oSettings._iDisplayStart,
+                    "iEnd": oSettings.fnDisplayEnd(),
+                    "iLength": oSettings._iDisplayLength,
+                    "iTotal": oSettings.fnRecordsTotal(),
+                    "iFilteredTotal": oSettings.fnRecordsDisplay(),
+                    "iPage": Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength),
+                    "iTotalPages": Math.ceil(oSettings.fnRecordsDisplay() / oSettings._iDisplayLength)
+                };
+            }
+
+            /* Bootstrap style pagination control */
+            $.extend($.fn.dataTableExt.oPagination, {
+                "bootstrap": {
+                    "fnInit": function (oSettings, nPaging, fnDraw) {
+                        var oLang = oSettings.oLanguage.oPaginate;
+                        var fnClickHandler = function (e) {
+                            e.preventDefault();
+                            if (oSettings.oApi._fnPageChange(oSettings, e.data.action)) {
+                                fnDraw(oSettings);
+                            }
+                        };
+
+                        $(nPaging).addClass('pagination').append(
+                                '<ul>' +
+                                '<li class="prev disabled"><a href="#">&larr; ' + oLang.sPrevious + '</a></li>' +
+                                '<li class="next disabled"><a href="#">' + oLang.sNext + ' &rarr; </a></li>' +
+                                '</ul>'
+                                );
+                        var els = $('a', nPaging);
+                        $(els[0]).bind('click.DT', {action: "previous"}, fnClickHandler);
+                        $(els[1]).bind('click.DT', {action: "next"}, fnClickHandler);
+                    },
+                    "fnUpdate": function (oSettings, fnDraw) {
+                        var iListLength = 5;
+                        var oPaging = oSettings.oInstance.fnPagingInfo();
+                        var an = oSettings.aanFeatures.p;
+                        var i, j, sClass, iStart, iEnd, iHalf = Math.floor(iListLength / 2);
+
+                        if (oPaging.iTotalPages < iListLength) {
+                            iStart = 1;
+                            iEnd = oPaging.iTotalPages;
+                        }
+                        else if (oPaging.iPage <= iHalf) {
+                            iStart = 1;
+                            iEnd = iListLength;
+                        } else if (oPaging.iPage >= (oPaging.iTotalPages - iHalf)) {
+                            iStart = oPaging.iTotalPages - iListLength + 1;
+                            iEnd = oPaging.iTotalPages;
+                        } else {
+                            iStart = oPaging.iPage - iHalf + 1;
+                            iEnd = iStart + iListLength - 1;
+                        }
+
+                        for (i = 0, iLen = an.length; i < iLen; i++) {
+                            // Remove the middle elements
+                            $('li:gt(0)', an[i]).filter(':not(:last)').remove();
+
+                            // Add the new list items and their event handlers
+                            for (j = iStart; j <= iEnd; j++) {
+                                sClass = (j == oPaging.iPage + 1) ? 'class="active"' : '';
+                                $('<li ' + sClass + '><a href="#">' + j + '</a></li>')
+                                        .insertBefore($('li:last', an[i])[0])
+                                        .bind('click', function (e) {
+                                            e.preventDefault();
+                                            oSettings._iDisplayStart = (parseInt($('a', this).text(), 10) - 1) * oPaging.iLength;
+                                            fnDraw(oSettings);
+                                        });
+                            }
+
+                            // Add / remove disabled classes from the static elements
+                            if (oPaging.iPage === 0) {
+                                $('li:first', an[i]).addClass('disabled');
+                            } else {
+                                $('li:first', an[i]).removeClass('disabled');
+                            }
+
+                            if (oPaging.iPage === oPaging.iTotalPages - 1 || oPaging.iTotalPages === 0) {
+                                $('li:last', an[i]).addClass('disabled');
+                            } else {
+                                $('li:last', an[i]).removeClass('disabled');
+                            }
+                        }
+                    }
+                }
+            });
+
+
+        </script>  
+
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12">	  
+                <ul class="nav nav-tabs" id="modTab" style="margin-bottom:0px;margin-left:5px;border-bottom: none;">
+                    <li class="active"><a id="tabEmployee" href="#tabPageEmployee">Employees</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tabPageEmployee">
+                        <div id="Employee" class="reviewBlock" data-content="List" style="padding-left:5px;">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <button onclick="modJs.renderForm();
+                                            return false;" class="btn btn-small btn-primary">Add New <i class="fa fa-plus"></i></button>&nbsp;&nbsp;<button onclick="modJs.showFilters();
+                                                    return false;" class="btn btn-small btn-primary">Fillter <i class="fa fa-filter"></i></button>&nbsp;&nbsp;<button id="Employee_resetFilters" onclick="modJs.resetFilters();
+                                                            return false;" class="btn btn-small btn-default" style="display:none;">Reset Filters <i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body table-responsive">
+                                <div id="grid_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div id="grid_length" class="dataTables_length" style="display: none;">
+                                                <label><select size="1" name="grid_length" aria-controls="grid">
+                                                        <option value="10">10</option>
+                                                        <option value="25">25</option>
+                                                        <option value="50">50</option>
+                                                        <option value="100">100</option>
+                                                    </select> records per page
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="dataTables_filter" id="grid_filter">
+                                                <label><input type="text" aria-controls="grid" class="form-control" placeholder="Search"></label>
+                                            </div>
+                                        </div>
+                                        <div id="grid_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
+
+                                    </div>
+                                    <table cellpadding="0" cellspacing="0" border="0" class="table table-bordered table-striped dataTable" id="grid" aria-describedby="grid_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 29px;">ID</th>
+                                                <th class="sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 201px;">Employee Number</th>
+                                                <th class="sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 122px;">First Name</th>
+                                                <th class="sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 118px;">Last Name</th>
+                                                <th class="sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 81px;">Mobile</th>
+                                                <th class="sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 133px;">Department</th>
+                                                <th class="sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 89px;">Gender</th>
+                                                <th class="sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 128px;">Supervisor</th>
+                                                <th class="sorting_disabled center" tabindex="0" rowspan="1" colspan="1" style="width: 9px;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody role="alert" aria-live="polite" aria-relevant="all">
+                                            <tr class="odd">
+                                                <td class="">1</td>
+                                                <td class="">EMP001</td>
+                                                <td class="">IceHrm</td>
+                                                <td class="">Employee</td>
+                                                <td class="">440-953-4578</td>
+                                                <td class="">Your Company</td>
+                                                <td class="">Male</td>
+                                                <td class=""></td>
+                                                <td class="center">
+                                                    <div style="width:110px;">
+                                                        <img class="tableActionButton" src="assets/images/user.png" style="cursor:pointer;" rel="tooltip" title="Login as this Employee" onclick="modJs.setAdminEmployee(1);
+                                                                return false;">
+                                                        <img class="tableActionButton" src="assets/images/edit.png" style="cursor:pointer;margin-left:15px;" rel="tooltip" title="Edit" onclick="modJs.edit(1);
+                                                                return false;">
+                                                        <img class="tableActionButton" src="assets/images/delete.png" style="margin-left:15px;cursor:pointer;" rel="tooltip" title="Terminate Employee" onclick="modJs.deleteRow(1);
+                                                                return false;">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="even">
+                                                <td class="">2</td>
+                                                <td class="">9189</td>
+                                                <td class="">Ammar</td>
+                                                <td class="">Shrestha</td>
+                                                <td class=""></td>
+                                                <td class="">Your Company</td>
+                                                <td class="">Male</td>
+                                                <td class=""></td>
+                                                <td class="center">
+                                                    <div style="width:110px;">
+                                                        <img class="tableActionButton" src="assets/images/user.png" style="cursor:pointer;" rel="tooltip" title="Login as this Employee" onclick="modJs.setAdminEmployee(2);
+                                                                return false;">
+                                                        <img class="tableActionButton" src="assets/images/edit.png" style="cursor:pointer;margin-left:15px;" rel="tooltip" title="Edit" onclick="modJs.edit(2);
+                                                                return false;">
+                                                        <img class="tableActionButton" src="assets/images/delete.png" style="margin-left:15px;cursor:pointer;" rel="tooltip" title="Terminate Employee" onclick="modJs.deleteRow(2);
+                                                                return false;">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="dataTables_info" id="grid_info">Showing 1 to 2 of 2 entries</div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="dataTables_paginate paging_bootstrap pagination">
+                                                <ul class="pagination">
+                                                    <li class="prev disabled"><a href="#">← Previous</a></li>
+                                                    <li class="active"><a href="#">1</a></li>
+                                                    <li class="next disabled"><a href="#">Next → </a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="EmployeeForm" class="reviewBlock" data-content="Form" style="padding-left: 5px; display: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>      
+
+
+
+
+
+<script>
+
+    //--Bootstrap Date Picker--
+    $('.date-picker').datepicker();
+
+    //--Bootstrap Time Picker--
+    $('#timepicker1').timepicker();
+
+    //--Bootstrap Date Range Picker--
+    $('#reservation').daterangepicker();
+
+</script>
+
+
+
+<div class="well with-header">
+    <div class="header bordered-palegreen">Jquery Select2</div>
+    <div>
+        <h6>Single Select With Search</h6>
+        <select id="e1" style="width:100%;">
+            <option value="AL" />Alabama
+            <option value="AK" />Alaska
+            <option value="AZ" />Arizona
+            <option value="AR" />Arkansas
+            <option value="CA" />California
+            <option value="CO" />Colorado
+            <option value="CT" />Connecticut
+        </select>
+    </div>
+</div>
+
+
+<form id="html5Form" method="post" class="form-horizontal"
+      data-bv-message="This value is not valid"
+      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+    <div class="form-group">
+        <label class="col-lg-4 control-label">Username</label>
+        <div class="col-lg-8">
+            <input type="text" class="form-control" name="username"
+                   data-bv-message="The username is not valid"
+                   required
+                   data-bv-notempty-message="The username is required and cannot be empty"
+                   pattern="[a-zA-Z0-9]+"
+                   data-bv-regexp-message="The username can only consist of alphabetical, number" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-4 control-label">Email address</label>
+        <div class="col-lg-8">
+            <input class="form-control" name="email"
+                   required
+                   type="email" data-bv-emailaddress-message="The input is not a valid email address" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-4 control-label">Website</label>
+        <div class="col-lg-8">
+            <input class="form-control" name="website"
+                   required
+                   type="url" data-bv-uri-message="The input is not a valid website address" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-4 control-label">Fav color</label>
+        <div class="col-lg-8">
+            <input class="form-control" name="color"
+                   required
+                   type="color" data-bv-hexcolor-message="The input is not a valid color code" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-4 control-label">Age</label>
+        <div class="col-lg-8">
+            <input type="text" class="form-control" name="age"
+                   required
+                   min="10"
+                   data-bv-greaterthan-inclusive="false"
+                   data-bv-greaterthan-message="The input must be greater than or equal to 10"
+                   max="100"
+                   data-bv-lessthan-inclusive="true"
+                   data-bv-lessthan-message="The input must be less than 100" />
+            <!--<input class="form-control" name="age"
+            required
+            type="range"
+            min="10"
+            max="100"
+            data-bv-between-message="The input must be between 10 and 100" />-->
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-8 col-lg-offset-4">
+            <button type="submit" class="btn btn-warning">Validate</button>
+        </div>
+    </div>
+</form>
+
+
+
+
+<div class="modal" id="PunchModel" tabindex="-1" role="dialog" aria-labelledby="messageModelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><li class="fa fa-times"/></button>
+                <h3 style="font-size: 17px;">Punch Time</h3>
+            </div>
+            <div class="modal-body" style="max-height:530px;" id="AttendanceForm">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Message Modal -->
+<div class="modal fade" id="messageModel" tabindex="-1" role="dialog" aria-labelledby="messageModelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">	
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><li class="fa fa-times"/></button>
+                <h3 id="messageModelLabel" style="font-size: 17px;"></h3>
+            </div>
+            <div class="modal-body">
+                <p id="messageModelBody"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="modJs.closeMessage();">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Message Modal -->
+
+
+
+<div class="dataTables_length" id="simpledatatable_length">
+    <button class="btn btn-blue" data-toggle="modal" data-target=".bs-example-modal-sm">Punch-in</button>
+    <button class="btn btn-blue" data-toggle="modal" data-target=".bs-example-modal-sm">Punch-out</button>
+</div>
+<table cellpadding="0" cellspacing="0" border="0" class="table table-bordered table-striped dataTable" id="grid" aria-describedby="grid_info" style="width: 1090px;">
+    <thead>
+        <tr role="row">
+            <th class="sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 326px;">Time-In</th>
+            <th class="sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 387px;">Time-Out</th>
+            <th class="sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 235px;">Note</th>
+            <th class="sorting_disabled center" tabindex="0" rowspan="1" colspan="1" style="width: 69px;"></th>
+        </tr>
+    </thead>
+    <tbody role="alert" aria-live="polite" aria-relevant="all">
+        <tr class="odd"><td class="">2014 Dec 6  <b>14:23</b></td>
+            <td class="">Dec 6  <b>14:26</b></td><td class=""></td>
+            <td class="center"></td></tr><tr class="even"><td class="">2014 Dec 6  <b>10:26</b></td>
+            <td class="">Dec 6  <b>14:22</b></td><td class=""></td>
+            <td class="center"></td></tr><tr class="odd"><td class="">2014 Dec 6  <b>10:23</b></td>
+            <td class="">Dec 6  <b>10:26</b></td><td class=""></td>
+            <td class="center"></td>
+        </tr>
+        <tr class="even"><td class="">2014 Dec 4  <b>11:03</b></td>
+            <td class=""></td>
+            <td class=""></td>
+            <td class="center"></td>
+        </tr>
+        <tr class="odd">
+            <td class="">2014 Dec 4  <b>10:29</b></td>
+            <td class="">Dec 4  <b>10:54</b></td>
+            <td class=""></td><td class="center"></td>
+        </tr><tr class="even">
+            <td class="">2014 Dec 4  <b>10:23</b></td>
+            <td class="">Dec 4  <b>10:23</b></td>
+            <td class=""></td><td class="center"></td>
+        </tr>
+        <tr class="odd">
+            <td class="">2014 Dec 3  <b>14:36</b></td>
+            <td class="">Dec 3  <b>14:37</b></td>
+            <td class=""></td><td class="center"></td>
+        </tr><tr class="even">
+            <td class="">2014 Dec 2  <b>00:46</b></td>
+            <td class=""></td>
+            <td class=""></td>
+            <td class="center"></td>
+        </tr>
+        <tr class="odd">
+            <td class="">2014 Dec 1  <b>20:18</b></td>
+            <td class="">Dec 1  <b>20:18</b></td>
+            <td class=""></td>
+            <td class="center"></td>
+        </tr>
+        <tr class="even">
+            <td class="">2014 Dec 1  <b>20:17</b></td>
+            <td class="">Dec 1  <b>20:17</b></td>
+            <td class=""></td>
+            <td class="center"></td>
+        </tr>
+        <tr class="odd">
+            <td class="">2014 Dec 1  <b>07:58</b></td>
+            <td class="">Dec 1  <b>12:58</b></td>
+            <td class=""></td>
+            <td class="center"></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<?php $uripart = ''; ?>
+<div class="centercontent tables">
+    <div class="pageheader notab">
+        <h1 class="pagetitle">Departments List</h1>
+        <span class="pagedesc">
+        </span>
+    </div><!--pageheader-->
+    <?php
+    if ($this->session->flashdata('error')) {
+    echo '<div class="notibar msgalert"><a class="close"></a>' . $this->session->flashdata('error') . '</div>';
+    }
+
+    if ($this->session->flashdata('success'))
+    echo '<div class="notibar msgsuccess">
+    <a class="close"></a><p>' . $this->session->flashdata('success') . '</p></div>';
+    ?>
+
+    <div id="contentwrapper" class="contentwrapper">
+        <!--
+            <div class="contenttitle2">
+                <h3>clinic: List (All)</h3>
+            </div>contenttitle-->
+        <a href="<?php echo base_url("department/add"); ?>" title="Add" class="icon-5 info-tooltip">Add</a>
+
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable" id="dyntable2">
+
+            <colgroup>
+                <col class="con0" style="width: 4%" />
+                <col class="con1" />
+                <col class="con0" />
+                <col class="con1" />
+                <col class="con0" />
+            </colgroup>
+
+            <thead>
+                <tr>
+                    <th class="head0 nosort">
+                        <input type="checkbox" /><a id="toggle-all" ></a>
+                    </th>
+                    <th class="head1">Department Name</th>
+                    <th class="head1">Department Code</th>
+
+                    <th class="head1">Actions</th>
+
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th class="head0">
+                        <span class="center">
+                            <input type="checkbox" /><a id="toggle-all" ></a>
+                        </span>
+                    </th>
+
+                    <th class="head1">Department Name</th>
+                    <th class="head1">Department Code</th>
+                    <th class="head1">Actions</th>
+
+                </tr>
+            </tfoot>
+            <tbody>
+                <?php foreach ($record as $val) { ?>
+                <tr class="gradeA">
+                    <td align="center"><span class="center">
+                            <input type="checkbox" id="id[]" name="id[]" value="<?php echo $val->department_id; ?>" />
+                        </span></td>
+
+                    <td><?php echo $val->department_name; ?></a></td>
+
+                    <td><?php echo $val->department_code; ?></a></td>
+
+
+                    <td class="options-width">
+                        <a href="<?php echo base_url("department/edit/{$val->department_id}"); ?>" title="Edit" class="icon-1 info-tooltip">Edit</a>
+                        <a href="<?php echo base_url("department/delete/{$val->department_id}"); ?><?php echo $uripart ?>" onclick="if (!confirm('Are you sure you want to delete this record??'))
+                           return false;" title="Delete" class="icon-2 info-tooltip">Delete</a>
+                        <a href="<?php echo base_url("department/detail/{$val->department_id}"); ?>" title="Detail" class="icon-5 info-tooltip">Detail</a>
+                    </td>
+                </tr>
+                <?php } ?> 
+
+            </tbody>
+
+        </table>
+
+        <div id="actions-box">
+            <a href="" class="action-slider"></a>
+            <div id="actions-box-slider">
+                <a href="#bulkdelete" class="action-delete" onclick="bulkaction('frmcheckbulk', 'slider/bulk_delete<?php echo $uripart ?>');">Delete</a>
+                <a href="#bulkactivate" class="action-activate" onclick="bulkaction('frmcheckbulk', 'slider/bulkstatus/activate<?php echo $uripart ?>');">Activate</a>
+                <a href="#bulkdeactivate" class="action-deactivate" onclick="bulkaction('frmcheckbulk', '/bulkstatus/deactivate<?php echo $uripart ?>');">Deactivate</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div><!--contentwrapper-->
+
+</div><!-- centercontent -->
+
+
+
+<div class="pageheader">
+    <h1 class="pagetitle">Departments</h1>
+    <span class="pagedesc"></span>
+
+    <ul class="hornav">
+        <li class="current"><a href="#basicform"> <?php echo ucfirst($method); ?> Details</a></li>
+
+    </ul>
+</div>
+<div id="contentwrapper" class="contentwrapper">
+
+    <div id="basicform" class="subcontent">
+
+        <!--        <div class="contenttitle2">
+                    <h3> <?php echo ucfirst($method); ?></h3>
+                </div>contenttitle-->
+
+        <?php
+        if (validation_errors())
+        echo '<div class="notibar msgerror">
+        <a class="close"></a>' . validation_errors() . '</div>';
+
+        if ($this->session->flashdata('success'))
+        echo '  <div class="notibar msgsuccess">
+        <a class="close"></a><p>' . $this->session->flashdata('success') . '</p></div>';
+
+        if ($this->session->flashdata('error'))
+        echo '<div class="notibar msgalert">
+        <a class="close"></a>' . $this->session->flashdata('error') . '</div>';
+        ?> 
+        <?php echo form_open_multipart(uri_string(), array('class' => 'stdform stdform2')); ?>
+
+
+        <p>
+            <label>Department Name</label>
+            <span class="field">
+                <input type="text" name="department_name" id="title" value="<?php echo (@$_POST['department_name']) ? $_POST['department_name'] : $editData->department_name; ?>" class="inp-form" />
+            </span>
+        </p>
+
+        <p>
+            <label>Department Code</label>
+            <span class="field">
+                <input type="text" name="department_code" id="title" value="<?php echo (@$_POST['department_code']) ? $_POST['department_code'] : $editData->department_code; ?>" class="inp-form" />
+            </span>
+        </p>
+
+        <p class="stdformbutton">
+            <button class="submit radius2">Submit Button</button>
+            <input type="reset" class="reset radius2" value="Reset Button" />
+        </p>
+        </form>
+
+        <br />
+
+
+    </div><!--subcontent-->
+
+
+
+    <form class="form-horizontal" id="PayGrade_submit" role="form">
+        <div class="box-body">
+            <div class="control-group">
+                <div class="controls">
+                    <span class="label label-warning" id="PayGrade_submit_error" style="display:none;"></span>
+                </div>
+            </div>
+            <input type="hidden" id="id" name="id" value="" style="display:none;"><div class="row" id="field_name">
+                <label class="col-sm-3 control-label" for="name">Pay Grade Name<font class="redFont">*</font></label>
+                <div class="controls col-sm-6">
+                    <input class="form-control" type="text" id="name" name="name" value="">
+                </div>
+                <div class="controls col-sm-3">
+                    <span class="help-inline control-label" id="help_name"></span>
+                </div>
+            </div><div class="row" id="field_currency">
+                <label class="control-label col-sm-3" for="currency">Currency<font class="redFont">*</font></label>
+                <div class="controls col-sm-6">
+                    <div class="select2-container form-control select2Field" id="s2id_currency"><a href="javascript:void(0)" class="select2-choice" tabindex="-1">   <span class="select2-chosen" id="select2-chosen-3">Utd. Arab Emir. Dirham</span><abbr class="select2-search-choice-close"></abbr>   <span class="select2-arrow" role="presentation"><b role="presentation"></b></span></a><label for="s2id_autogen3" class="select2-offscreen">Currency*</label><input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-3" id="s2id_autogen3"></div><select type="select-one" class="form-control select2Field select2-offscreen" id="currency" name="currency" tabindex="-1" title="Currency*">
+                        <option value="AED">Utd. Arab Emir. Dirham</option><option value="AFN">Afghanistan Afghani</option><option value="ALL">Albanian Lek</option><option value="ANG">NL Antillian Guilder</option><option value="AOR">Angolan New Kwanza</option><option value="ARS">Argentine Peso</option><option value="AUD">Australian Dollar</option><option value="AWG">Aruban Florin</option><option value="BBD">Barbados Dollar</option><option value="BDT">Bangladeshi Taka</option><option value="BGL">Bulgarian Lev</option><option value="BHD">Bahraini Dinar</option><option value="BIF">Burundi Franc</option><option value="BMD">Bermudian Dollar</option><option value="BND">Brunei Dollar</option><option value="BOB">Bolivian Boliviano</option><option value="BRL">Brazilian Real</option><option value="BSD">Bahamian Dollar</option><option value="BTN">Bhutan Ngultrum</option><option value="BWP">Botswana Pula</option><option value="BZD">Belize Dollar</option><option value="CAD">Canadian Dollar</option><option value="CHF">Swiss Franc</option><option value="CLP">Chilean Peso</option><option value="CNY">Chinese Yuan Renminbi</option><option value="COP">Colombian Peso</option><option value="CRC">Costa Rican Colon</option><option value="CUP">Cuban Peso</option><option value="CVE">Cape Verde Escudo</option><option value="CYP">Cyprus Pound</option><option value="DJF">Djibouti Franc</option><option value="DKK">Danish Krona</option><option value="DOP">Dominican Peso</option><option value="DZD">Algerian Dinar</option><option value="ECS">Ecuador Sucre</option><option value="EUR">Euro</option><option value="EEK">Estonian Krona</option><option value="EGP">Egyptian Pound</option><option value="ETB">Ethiopian Birr</option><option value="FJD">Fiji Dollar</option><option value="FKP">Falkland Islands Pound</option><option value="GBP">Pound Sterling</option><option value="GHC">Ghanaian Cedi</option><option value="GIP">Gibraltar Pound</option><option value="GMD">Gambian Dalasi</option><option value="GNF">Guinea Franc</option><option value="GTQ">Guatemalan Quetzal</option><option value="GYD">Guyanan Dollar</option><option value="HKD">Hong Kong Dollar</option><option value="HNL">Honduran Lempira</option><option value="HRK">Croatian Kuna</option><option value="HTG">Haitian Gourde</option><option value="HUF">Hungarian Forint</option><option value="IDR">Indonesian Rupiah</option><option value="ILS">Israeli New Shekel</option><option value="INR">Indian Rupee</option><option value="IQD">Iraqi Dinar</option><option value="IRR">Iranian Rial</option><option value="ISK">Iceland Krona</option><option value="JMD">Jamaican Dollar</option><option value="JOD">Jordanian Dinar</option><option value="JPY">Japanese Yen</option><option value="KES">Kenyan Shilling</option><option value="KHR">Kampuchean Riel</option><option value="KMF">Comoros Franc</option><option value="KPW">North Korean Won</option><option value="KRW">Korean Won</option><option value="KWD">Kuwaiti Dinar</option><option value="KYD">Cayman Islands Dollar</option><option value="KZT">Kazakhstan Tenge</option><option value="LAK">Lao Kip</option><option value="LBP">Lebanese Pound</option><option value="LKR">Sri Lanka Rupee</option><option value="LRD">Liberian Dollar</option><option value="LSL">Lesotho Loti</option><option value="LTL">Lithuanian Litas</option><option value="LVL">Latvian Lats</option><option value="LYD">Libyan Dinar</option><option value="MAD">Moroccan Dirham</option><option value="MGF">Malagasy Franc</option><option value="MMK">Myanmar Kyat</option><option value="MNT">Mongolian Tugrik</option><option value="MOP">Macau Pataca</option><option value="MRO">Mauritanian Ouguiya</option><option value="MTL">Maltese Lira</option><option value="MUR">Mauritius Rupee</option><option value="MVR">Maldive Rufiyaa</option><option value="MWK">Malawi Kwacha</option><option value="MXN">Mexican New Peso</option><option value="MYR">Malaysian Ringgit</option><option value="MZM">Mozambique Metical</option><option value="NAD">Namibia Dollar</option><option value="NGN">Nigerian Naira</option><option value="NIO">Nicaraguan Cordoba Oro</option><option value="NOK">Norwegian Krona</option><option value="NPR">Nepalese Rupee</option><option value="NZD">New Zealand Dollar</option><option value="OMR">Omani Rial</option><option value="PAB">Panamanian Balboa</option><option value="PEN">Peruvian Nuevo Sol</option><option value="PGK">Papua New Guinea Kina</option><option value="PHP">Philippine Peso</option><option value="PKR">Pakistan Rupee</option><option value="PLN">Polish Zloty</option><option value="PYG">Paraguay Guarani</option><option value="QAR">Qatari Rial</option><option value="ROL">Romanian Leu</option><option value="RUB">Russian Rouble</option><option value="SBD">Solomon Islands Dollar</option><option value="SCR">Seychelles Rupee</option><option value="SDD">Sudanese Dinar</option><option value="SDP">Sudanese Pound</option><option value="SEK">Swedish Krona</option><option value="SKK">Slovak Koruna</option><option value="SGD">Singapore Dollar</option><option value="SHP">St. Helena Pound</option><option value="SLL">Sierra Leone Leone</option><option value="SOS">Somali Shilling</option><option value="SRD">Surinamese Dollar</option><option value="STD">Sao Tome/Principe Dobra</option><option value="SVC">El Salvador Colon</option><option value="SYP">Syrian Pound</option><option value="SZL">Swaziland Lilangeni</option><option value="THB">Thai Baht</option><option value="TND">Tunisian Dinar</option><option value="TOP">Tongan Pa'anga</option><option value="TRL">Turkish Lira</option><option value="TTD">Trinidad/Tobago Dollar</option><option value="TWD">Taiwan Dollar</option><option value="TZS">Tanzanian Shilling</option><option value="UAH">Ukraine Hryvnia</option><option value="UGX">Uganda Shilling</option><option value="USD">United States Dollar</option><option value="UYP">Uruguayan Peso</option><option value="VEB">Venezuelan Bolivar</option><option value="VND">Vietnamese Dong</option><option value="VUV">Vanuatu Vatu</option><option value="WST">Samoan Tala</option><option value="XAF">CFA Franc BEAC</option><option value="XAG">Silver (oz.)</option><option value="XAU">Gold (oz.)</option><option value="XCD">Eastern Caribbean Dollars</option><option value="XOF">CFA Franc BCEAO</option><option value="XPD">Palladium (oz.)</option><option value="XPF">CFP Franc</option><option value="XPT">Platinum (oz.)</option><option value="YER">Yemeni Riyal</option><option value="YUM">Yugoslavian Dinar</option><option value="ZAR">South African Rand</option><option value="ZRN">New Zaire</option><option value="ZWD">Zimbabwe Dollar</option><option value="CZK">Czech Koruna</option><option value="MXP">Mexican Peso</option><option value="SAR">Saudi Arabia Riyal</option><option value="YUN">Yugoslav Dinar</option><option value="ZMK">Zambian Kwacha</option><option value="ARP">Argentina Pesos</option><option value="XDR">IMF Special Drawing Right</option><option value="RUR">Russia Rubles</option>
+                    </select>
+                </div>
+                <div class="controls col-sm-3">
+                    <span class="help-inline control-label" id="help_currency"></span>
+                </div>
+            </div><div class="row" id="field_min_salary">
+                <label class="col-sm-3 control-label" for="min_salary">Min Salary<font class="redFont">*</font></label>
+                <div class="controls col-sm-6">
+                    <input class="form-control" type="text" id="min_salary" name="min_salary" value="" validation="float">
+                </div>
+                <div class="controls col-sm-3">
+                    <span class="help-inline control-label" id="help_min_salary"></span>
+                </div>
+            </div><div class="row" id="field_max_salary">
+                <label class="col-sm-3 control-label" for="max_salary">Max Salary<font class="redFont">*</font></label>
+                <div class="controls col-sm-6">
+                    <input class="form-control" type="text" id="max_salary" name="max_salary" value="" validation="float">
+                </div>
+                <div class="controls col-sm-3">
+                    <span class="help-inline control-label" id="help_max_salary"></span>
+                </div>
+            </div>
+            <div class="control-group row">
+                <div class="controls col-sm-9">
+                    <button onclick="try {
+                                modJs.save()
+                            } catch (e) {
+                            }
+                            ;
+                            return false;" class="saveBtn btn btn-primary pull-right"><i class="fa fa-save"></i> Save</button>
+                    <button onclick="modJs.cancel();
+                            return false;" class="cancelBtn btn pull-right" style="margin-right:5px;"><i class="fa fa-times-circle-o"></i> Cancel</button>
+                </div>
+                <div class="controls col-sm-3">
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+</div><!--contentwrapper-->
+
+<div id="content-outer">
+    <!-- start content -->
+    <div id="content">
+
+
+
+
+
+        <!--  start step-holder -->
+        <div id="step-holder">
+
+            <div class="step-dark-left"><a href="">View Attributes Details</a></div>
+            <div class="step-dark-right">&nbsp;</div>
+            <div class="clear"></div>
+        </div>
+        <!--  end step-holder -->
+
+        <!-- start id-form -->
+
+        <p><b>Attribute Name : </b><?php echo $data->attribute_name; ?></p>
+
+
+        <!-- end id-form  -->
+
+        </td>
+        </tr>
+
+        </table>
+
+        <div class="clear"></div>
+
+
+    </div>
+    <!--  end content-table-inner  -->
+</td>
+<td id="tbl-border-right"></td>
+</tr>
+<tr>
+    <th class="sized bottomleft"></th>
+    <td id="tbl-border-bottom">&nbsp;</td>
+    <th class="sized bottomright"></th>
+</tr>
+</table>
+
+</form>
+
+<div class="clear">&nbsp;</div>
+
+</div>
+<!--  end content -->
+<div class="clear">&nbsp;</div>
+</div>
+
+
+
+
+
+<!-- Page Header -->
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+            Manage Employee Roles
+        </h1>
+    </div>
+</div>
+<!-- /Page Header -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="widget">
+                    <div class="widget-header bordered-bottom bordered-blue">
+                        <span class="widget-caption">This page is used to reassign/manage roles for a employee.</span>
+                    </div>
+                    <div class="widget-body flat radius-bordered">
+                        <div id="registration-form">
+                            <?php
+                            if (validation_errors()) {
+                            ?>
+                            <div class="notibar announcement">
+                                <a class="close"></a>
+                                <h3>Validation Errors</h3>
+                                <p><?php echo validation_errors() ?></p>
+                            </div>
+
+                            <?php
+                            }
+                            ?>
+                            <?php
+                            if ($this->session->flashdata('success')) {
+                            ?>
+                            <div class="notibar msgsuccess">
+                                <a class="close"></a>
+                                <p><?php echo $this->session->flashdata('success') ?></p>
+                            </div>
+                            <?php
+                            }
+                            ?>
+                            <?php
+                            if ($this->session->flashdata('error')) {
+                            ?>
+                            <div class="notibar msgerror">
+                                <a class="close"></a>
+                                <p><?php echo $this->session->flashdata('error') ?></p>
+                            </div>
+                            <?php
+                            }
+                            ?>
+                            <div class="contenttitle2">
+                                <h3>Update Roles for: <span style="color: #92b22c"><?php echo $info->fname ?>&nbsp;<?php echo $info->mname ?>&nbsp;<?php echo $info->lname ?></h3>
+                            </div>
+                            <br />
+                            <p>
+                                <?php echo form_open("employee/aroles/"); ?>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <table border="0" cellpadding="5" cellspacing="0" width="100%">
+                                        <tr>
+                                            <th style="text-align:left">Roles</th><th>Member of</th>
+                                            <th style="width:30px">&nbsp;&nbsp;</th><th>Not Member of</th>
+                                        </tr>
+                                        <?php
+                                        //$roleACL = new ACL($_GET['userID']);
+                                        //$this->gcacl->getAllPerms('full');
+                                        //$roles = $roleACL->getAllRoles('full');
+                                        $roles = $this->gcacl->getAllRoles('full');
+                                        foreach ($roles as $k => $v) {
+                                        ?>
+                                        <tr>
+                                            <td>
+                                                <label><?php echo $v['Name'] ?></label>
+                                            </td>
+                                            <td>
+                                                <span style="padding-left: 60px"><input type="radio" name="role_<?php echo $v['ID'] ?>" id="role_<?php echo $v['ID'] ?>_1" value="1" <?php if ($this->gcacl->userHasRole($v['ID'])) {
+                                                                                        echo 'checked="checked"';
+                                                                                        } ?> /></span>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td >
+                                                <span style="padding-left: 70px"><input type="radio" name="role_<?php echo $v['ID'] ?>" id="role_<?php echo $v['ID'] ?>_0" value="0" <?php if (!$this->gcacl->userHasRole($v['ID'])) {
+                                                                                        echo ' checked="checked"';
+                                                                                        } ?> /></span>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                        }
+                                        ?>
+                                    </table>
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="widgetbox uncollapsible">
+                                        <div class="title"><h4>Update Roles & Permissions</h4></div>
+                                        <div class="widgetcontent nopadding">
+                                            <div class="chatsearch">
+                                                <strong>Manage Roles For</strong>
+                                            </div>
+                                            <ul class="contactlist">
+                                                <?php if($userlist) { ?>
+                                                <?php foreach($userlist as $u) {?>
+                                                <li><?php echo anchor('user/aroles/' . $u->ID , $u->fname . '&nbsp;' . $u->mname . '&nbsp;' . $u->lname , array('title' => 'View Permission'))?></li> 
+                                                <?php } ?>
+                                                <?php } ?>
+                                            </ul>
+                                        </div><!--widgetcontent-->
+
+
+                                        <div class="widgetcontent nopadding">
+                                            <div class="chatsearch">
+                                                <strong>Manage Permissions For</strong>
+                                            </div>
+                                            <ul class="contactlist">
+                                                <?php if($userlist) { ?>
+                                                <?php foreach($userlist as $u) {?>
+                                                <li><?php echo anchor('user/aperms/' . $u->ID , $u->fname . '&nbsp;' . $u->mname . '&nbsp;' . $u->lname , array('title' => 'View Permission'))?></li> 
+                                                <?php } ?>
+                                                <?php } ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn btn-blue">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Page Header -->
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+            Manage Employee Permissions
+        </h1>
+    </div>
+</div>
+<!-- /Page Header -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="widget">
+                    <div class="widget-header bordered-bottom bordered-blue">
+                        <span class="widget-caption">This page is used to reassign/manage roles for a employee.</span>
+                    </div>
+                    <div class="widget-body flat radius-bordered">
+                        <div id="registration-form">
+                            <?php
+                            if (validation_errors()) {
+                            ?>
+                            <div class="notibar announcement">
+                                <a class="close"></a>
+                                <h3>Validation Errors</h3>
+                                <p><?php echo validation_errors() ?></p>
+                            </div>
+
+                            <?php
+                            }
+                            ?>
+                            <?php
+                            if ($this->session->flashdata('success')) {
+                            ?>
+                            <div class="notibar msgsuccess">
+                                <a class="close"></a>
+                                <p><?php echo $this->session->flashdata('success') ?></p>
+                            </div>
+                            <?php
+                            }
+                            ?>
+                            <?php
+                            if ($this->session->flashdata('error')) {
+                            ?>
+                            <div class="notibar msgerror">
+                                <a class="close"></a>
+                                <p><?php echo $this->session->flashdata('error') ?></p>
+                            </div>
+                            <?php
+                            }
+                            ?>
+                            <div class="contenttitle2">
+                                <h3>Update Permissions for: <span style="color: #92b22c"><?php echo $info->fname ?>&nbsp;<?php echo $info->mname ?>&nbsp;<?php echo $info->lname ?></h3>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <?php echo form_open("employee/aperms/"); ?>
+                                    <table border="0" cellpadding="5" cellspacing="0">
+                                        <tr><th style="text-align: left">Permissions</th><th style="width: 40px"></th><th>Activity</th></tr>
+                                        <tr><td colspan="3" >&nbsp;</td></tr>
+                                        <?php
+                                        //$userACL = new ACL($_GET['userID']);
+                                        $rPerms = $this->gcacl->perms;
+                                        $aPerms = $this->gcacl->getAllPerms('full');
+                                        foreach ($aPerms as $k => $v) {
+                                        echo "<tr><td>" . $v['Name'] . "</td>";
+                                        echo "<td>&nbsp;&nbsp;</td>";
+                                        echo "<td><select name=\"perm_" . $v['ID'] . "\">";
+                                        echo "<option value=\"1\"";
+                                        if (@$rPerms[$v['Key']]['value'] === true && @$rPerms[$v['Key']]['inheritted'] != true) {
+                                        echo " selected=\"selected\"";
+                                        }
+                                        echo ">Allow</option>";
+                                        echo "<option value=\"0\"";
+                                        if (@$rPerms[$v['Key']]['value'] === false && @$rPerms[$v['Key']]['inheritted'] != true) {
+                                        echo " selected=\"selected\"";
+                                        }
+                                        echo ">Deny</option>";
+                                        echo "<option value=\"x\"";
+                                        if (@$rPerms[$v['Key']]['inheritted'] == true || !array_key_exists(@$v['Key'], $rPerms)) {
+                                        echo " selected=\"selected\"";
+                                        if (@$rPerms[$v['Key']]['value'] === true) {
+                                        $iVal = '(Allow)';
+                                        } else {
+                                        $iVal = '(Deny)';
+                                        }
+                                        }
+                                        echo ">Inherit $iVal</option>";
+                                        echo "</select></td></tr>";
+                                        echo "<tr><td colspan='3'>&nbsp;</td></tr>";
+                                        }
+                                        ?>
+                                    </table>
+                                    <br>
+                                    <input type="hidden" name="action" value="savePerms" />
+                                    <input type="hidden" name="userID" value="<?php echo $info->ID ?>" />
+                                    <input type="submit" name="Submit" value="Submit" />
+                                    <input type="button" name="Cancel" onclick="window.location = '<?php echo base_url(); ?>employee/detail/<?php echo $info->ID; ?>'" value="Cancel" />
+                                    </form>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="widgetbox uncollapsible">
+                                        <div class="title"><h4>Update Roles & Permissions</h4></div>
+                                        <div class="widgetcontent nopadding">
+                                            <div class="chatsearch">
+                                                <strong>Manage Permissions For</strong>
+                                            </div>
+                                            <ul class="contactlist">
+                                                <?php if ($userlist) { ?>
+                                                <?php foreach ($userlist as $u) { ?>
+                                                <li><?php echo anchor('user/aperms/' . $u->ID, $u->fname . '&nbsp;' . $u->mname . '&nbsp;' . $u->lname, array('title' => 'View Permission')) ?></li> 
+                                                <?php } ?>
+                                                <?php } ?>
+                                            </ul>
+                                        </div><!--widgetcontent-->
+
+                                        <div class="widgetcontent nopadding">
+                                            <div class="chatsearch">
+                                                <strong>Manage Roles For</strong>
+                                            </div>
+                                            <ul class="contactlist">
+                                                <?php if ($userlist) { ?>
+                                                <?php foreach ($userlist as $u) { ?>
+                                                <li><?php echo anchor('employee/aroles/' . $u->ID, $u->first_name . '&nbsp;' . $u->middle_name . '&nbsp;' . $u->last_name, array('title' => 'View Permission')) ?></li> 
+                                                <?php } ?>
+                                                <?php } ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Page Header -->
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+            Edit Employee
+        </h1>
+    </div>
+</div>
+<!-- /Page Header -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+
+            <div class="row">
+                <div class="widget">
+                    <div class="widget-header bordered-bottom bordered-blue">
+                        <span class="widget-caption">Please enter the employee information provided in the form below.</span>
+                    </div>
+                    <div class="widget-body flat radius-bordered">
+                        <div id="registration-form">
+                            <?php
+                            if (validation_errors()) {
+                            ?>
+                            <div class="notibar announcement">
+                                <a class="close"></a>
+                                <h3>Validation Errors</h3>
+                                <p><?php echo validation_errors() ?></p>
+                            </div>
+
+                            <?php
+                            }
+                            ?>
+
+                            <?php
+                            if ($this->session->flashdata('success')) {
+                            ?>
+                            <div class="notibar msgsuccess">
+                                <a class="close"></a>
+                                <p><?php echo $this->session->flashdata('success') ?></p>
+                            </div>
+                            <?php
+                            }
+                            ?>
+
+                            <?php
+                            if ($this->session->flashdata('error')) {
+                            ?>
+                            <div class="notibar msgerror">
+                                <a class="close"></a>
+                                <p><?php echo $this->session->flashdata('error') ?></p>
+                            </div>
+                            <?php
+                            }
+                            ?>
+
+                            <?php echo form_open_multipart("employee/edit" . $record->ID, array('role' => 'form1', 'id' => 'html5Form', 'data-bv-message' => 'This value is not valid', 'data-bv-feedbackions-valid' => 'glyphicon glyphicon-ok', 'data-bv-feedbackicons-invalid' => 'glyphicon glyphicon-remove', 'data-bv-feedbackicons-validating' => 'glyphicon glyphicon-refresh')); ?>
+                            <input type="hidden" name="id" id="id" value="<?php echo $record->ID;?>">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="first_name" class="required">First Name <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" name="first_name" class="form-control" value="<?php echo @$_POST['first_name'] ? @$_POST['first_name'] : $record->first_name;?>" data-bv-message="The First Name is not valid"
+                                                   required
+                                                   data-bv-notempty-message="The First Name is required and cannot be empty"
+                                                   pattern="[a-zA-Z0-9]+"
+                                                   data-bv-regexp-message="The First Name can only consist of alphabetical, number">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="middle_name">Middle Name</label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" name="middle_name" class="form-control" value="<?php echo @$_POST['middle_name'] ? @$_POST['middle_name'] : $record->middle_name; ?>" data-bv-message="The Last Name is not valid" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="last_name">Last Name <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" name="last_name" class="form-control" value="<?php echo @$_POST['last_name'] ? @$_POST['last_name'] : $record->last_name; ?>" data-bv-message="The Last Name is not valid"
+                                                   required
+                                                   data-bv-notempty-message="The Last Name is required and cannot be empty"
+                                                   pattern="[a-zA-Z0-9]+"
+                                                   data-bv-regexp-message="The Last Name can only consist of alphabetical, number">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="username">Username<span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" name="username" class="form-control" value="<?php echo @$_POST['username'] ? @$_POST['username'] : $record->username?>" data-bv-message="The Username is not valid"
+                                                   required
+                                                   data-bv-notempty-message="The Username is required and cannot be empty"
+                                                   pattern="[a-zA-Z0-9]+"
+                                                   data-bv-regexp-message="The Username can only consist of alphabetical, number">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="password">Password <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input class="form-control" type="password" value="<?php @$_POST['password'] ?>" data-bv-notempty="true" data-bv-notempty-message="The password is required and cannot be empty" data-bv-identical="true" data-bv-identical-field="password_confirm" data-bv-identical-message="The password and its confirm are not the same" data-bv-different="true" data-bv-different-field="username" data-bv-different-message="The password cannot be the same as username" data-bv-field="password">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="cpassword">Confirm Password<span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="password" name="cpassword" class="form-control" value="<?php @$_POST['cpassword'] ?>" name="cpassword" data-bv-notempty="true" data-bv-notempty-message="The confirm password is required and cannot be empty" data-bv-identical="true" data-bv-identical-field="password" data-bv-identical-message="The password and its confirm are not the same" data-bv-different="true" data-bv-different-field="username" data-bv-different-message="The password cannot be the same as username" data-bv-field="confirmPassword">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="email">Email<span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="email" name="email" class="form-control" value="<?php @$_POST['email'] ? @$_POST['email'] : $record->email;?>" required
+                                                   type="email" data-bv-emailaddress-message="The input is not a valid email address">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="address">Address <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input class="form-control" name="address" type="text" value="<?php @$_POST['address'] ? @$_POST['adddress'] : $record->address;?> "
+                                                   required
+                                                   data-bv-notempty-message="The Address is required and cannot be empty" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="phone">Phone Number <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" name="phone" class="form-control" value="<?php echo @$_POST['phone'] ? @$_POST['phone'] : $record->phone;?>" required
+                                                   data-bv-notempty-message="The Phone is required and cannot be empty" >
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="department">Department <span class="required">*</span></label>
+                                        <select id="department_name" name="department_name" class="form-control" value="<?php echo @$_POST['department_name'] : $record->department_name;?>" required
+                                                data-bv-notempty-message="The Department Name is required and cannot be empty">
+                                            <option value="" />
+                                            <option value="Ac" />Account
+                                            <option value="Ex" />Executive
+                                            <option value="Hr" />Human Resources
+                                            <option value="Re" />Research
+                                            <option value="De" />Development
+                                        </select>                                            
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="designation_name">Designation <span class="required"> * </span></label>
+                                        <select id="designation_name" name="designation_name" class="form-control" value="<?php echo @$_POST['designation_name'] ? @$_POST['designation_name'] : $record->designation_name; ?>" required
+                                                data-bv-notempty-message="The Designation Name is required and cannot be empty">
+                                            <option value="">
+                                            <option value="3" />Programmer
+                                            <option value="2" />Designer
+                                            <option value="1" />Officer
+                                        </select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="grade">Grade <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <select id="grade" name="grade" class="form-control" value="<?php echo @$_POST['grade'] ? @$_POST['grade'] : $record->grade;?>" required
+                                                    data-bv-notempty-message="The Grade is required and cannot be empty">
+                                                <option value="">
+                                                <option value="1" />A
+                                                <option value="2" />B
+                                                <option value="3" />C
+                                                <option value="3" />D
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="basic_salary">Basic Salary<span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <select id="basic_salary" name="grade" class="form-control" value="<?php echo @$_POST['basic_salary'] ? @$_POST['basic_salary'] : $record->basic_salary;?>" required
+                                                    data-bv-notempty-message="The Basic Salary is required and cannot be empty">
+                                                <option value="">
+                                                <option value="1" />Rs.80000
+                                                <option value="2" />Rs.60000
+                                                <option value="3" />Rs.20000
+                                                <option value="3" />Rs.10000
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="marital_status">Marital Status <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <select name="marital_status" class="form-control" id="marital_status" value="<?php echo @$_POST['marital_status'] ? @$_POST['marital_status'] : $record->marital_status;?>" required>
+                                                <option value="">Select Marital Status</option>
+                                                <option value="M">Married</option>
+                                                <option value="S">Single</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="probation_status">Probation Status <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <select name="probation_status" class="form-control" id="probation_status" value="<?php echo @$_POST['probation_status'] ? @$_POST['probation_status'] : $record->probation_status;?>" required>
+                                                <option value="">Select Status</option>
+                                                <option value="1">Probation</option>
+                                                <option value="0">Permanent</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="joining_date">Joining Date <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input class="form-control date-picker" name="joining_date" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" value="<?php echo @$_POST['joining_date'] ? @$_POST['joininig_date'] : $record->joining_date; ?>" 
+                                                   required data-bv-notempty-message="The Date is required and cannot be empty" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="age">Age<span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" name="age" class="form-control" value="<?php @$_POST['age'] ? @$_POST['age'] : $record->age;?>" required
+                                                   min="10"
+                                                   data-bv-greaterthan-inclusive="false"
+                                                   data-bv-greaterthan-message="The input must be greater than or equal to 10"
+                                                   max="100"
+                                                   data-bv-lessthan-inclusive="true"
+                                                   data-bv-lessthan-message="The input must be less than 100">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn btn-blue">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+            Employee Profile
+        </h1>
+    </div>
+</div>
+<!-- /Page Header -->
+<!-- Page Body -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="profile-container">
+                <div class="profile-header row">
+                    <div class="col-lg-4 col-md-4 col-sm-12 text-center">
+                        <img src="<?php echo base_url()?>assets/img/no-img.jpeg" alt="" class="header-avatar" />
+                    </div>
+                    <div class="col-lg-4 col-md-8 col-sm-12 profile-info">
+                        <div class="profile-username"><?php echo $info->first_name?>&nbsp;<?php echo $info->last_name?></div>
+                        <div class="header-information">
+                            <div style="color: #1EA076;font-size: 22px;font-family: serif;line-height: 40px;"><i class="fa fa-sort-amount-desc"></i> Department : <?php echo $info->department_name;?></div>                                    
+                            <div style="color:#FD5042;font-size: 22px;font-family: serif;line-height: 40px;"><i class="fa fa-users"></i> Designation : <?php echo $info->designation_name;?></div>
+                            <div class="phoneno-display" style="color:#448ACC;font-size: 24px;font-family: serif;line-height: 40px;"><i class="fa fa-mobile"></i> <?php echo $info->phone;?></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 profile-stats">
+                        <div class="row" style="margin: 210px 0 0 0">
+                            <ul class="button-display">
+                                <li><a class="btn btn-default btnradious" href="index.php" onclick="history.back()"><i class="fa fa-angle-double-left"></i> Back</a></li>
+                                <li><a id="pdf" class="btn btn-pdf" target="_blank" href="#ExportToPdf?id=1"><i class="fa fa-file-pdf-o"></i> PDF</a></li>
+                                <li><a class="btn btn-edit" id="updateData" href="<?php echo site_url('employee/edit/' . $info->ID);?>"><i class="fa fa-wrench"></i> Edit</a></li>
+                                <li><a class="btn btn-delete btnradious-last" href="<?php echo site_url('employee/delete/' . $info->ID);?>"><i class="fa fa-trash-o"></i> Delete</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-body">
+                    <div class="col-lg-12">
+                        <div class="tabbable">
+                            <ul class="nav nav-tabs tabs-flat  nav-justified" id="myTab11">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#profile">
+                                        Profile
+                                    </a>
+                                </li>
+                                <li class="tab-red">
+                                    <a data-toggle="tab" href="#attendance">
+                                        Attendance Sheet
+                                    </a>
+                                </li>
+                                <li class="tab-palegreen">
+                                    <a data-toggle="tab" id="contacttab" href="#salarysheet">
+                                        Salary Sheet
+                                    </a>
+                                </li>
+                                <li class="tab-yellow">
+                                    <a data-toggle="tab" href="#settings">
+                                        Settings
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content tabs-flat">
+                                <div id="profile" class="tab-pane active">
+                                    <div class="row profile-overview">
+                                        <div class="col-md-12">
+                                            <table class="table table-condensed" width="100%" cellpadding="0" cellspacing="0">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="table-cell-title" width="23%">Employee No</td>
+                                                        <td class="table-cell-content" width="23%">9999</td>
+                                                        <td class="table-cell-title" width="23%">Employee Unique Id</td>
+                                                        <td class="table-cell-content" width="23%">1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="table-cell-title">Name Alias</td>
+                                                        <td class="table-cell-content">Ammar  Man Shrestha</td>
+                                                        <td class="table-cell-title">Private Email </td>
+                                                        <td class="table-cell-content">breakdown21stams@gmail.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="table-cell-title">Designation</td>
+                                                        <td class="table-cell-content">Developer</td>
+                                                        <td class="table-cell-title">Title</td>
+                                                        <td class="table-cell-content">Mr.</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="table-cell-title">First Name</td>
+                                                        <td class="table-cell-content">Ammar </td>
+                                                        <td class="table-cell-title">Middle Name</td>
+                                                        <td class="table-cell-content">Man</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="table-cell-title">Last Name</td>
+                                                        <td class="table-cell-content">Shrestha</td>
+                                                        <td class="table-cell-title">Mother Name</td>
+                                                        <td class="table-cell-content">Not Set</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="table-cell-title">Gender</td>
+                                                        <td class="table-cell-content">Not Set</td>
+                                                        <td class="table-cell-title">Department</td>
+                                                        <td class="table-cell-content">Human Resources</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="table-cell-title">Joining Date</td>
+                                                        <td class="table-cell-content">
+                                                            18-11-2014</td>
+                                                        <td class="table-cell-title">Probation Period</td>
+                                                        <td class="table-cell-content">Not Set</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="table-cell-title">Date of Birth</td>
+                                                        <td class="table-cell-content">
+                                                            Not Set					</td>
+                                                        <td class="table-cell-title">Birth Place</td>
+                                                        <td class="table-cell-content">Not Set</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="table-cell-title">Blood Group</td>
+                                                        <td class="table-cell-content">Not Set</td>
+                                                        <td class="table-cell-title">Nationality</td>
+                                                        <td class="table-cell-content">
+                                                            Not Set</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="table-cell-title">Marital Status</td>
+                                                        <td class="table-cell-content">Not Set</td>
+                                                        <td class="table-cell-title">Type</td>
+                                                        <td class="table-cell-content">
+                                                            Teaching</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="table-cell-title">Bank Account No.</td>
+                                                        <td class="table-cell-content">Not Set</td>
+                                                        <td class="table-cell-title">Institute Mobile</td>
+                                                        <td class="table-cell-content">Not Set</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="table-cell-title">Private Mobile No.</td>
+                                                        <td class="table-cell-content">9803765979</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table> 
+                                        </div>
+                                        <div class="col-md-4">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="attendance" class="tab-pane">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-12">
+                                            <div class="well with-header with-footer">
+                                                <div class="header bordered-blue">
+                                                    Manage Attendance
+                                                </div>
+                                                <ul style="list-style-type:none; float:left">
+                                                    <li>View: <select name="pageSize" id="pageSize">
+                                                            <option value="10" selected="selected">10</option>
+                                                            <option value="20">20</option>
+                                                            <option value="50">50</option>
+                                                            <option value="100">100</option>
+                                                        </select> Per Page
+                                                    </li>
+                                                </ul>
+                                                <table class="table table-striped table-bordered table-hover">
+                                                    <thead class="bordered-darkgray">
+                                                        <tr>
+                                                            <th>SI No</th>
+                                                            <th>Employee No</th>
+                                                            <th>Email (Login Id)</th>
+                                                            <th>Name</th>
+                                                            <th>Surname</th>
+                                                            <th>Designation</th>
+                                                            <th>Department</th>
+                                                            <th>&nbsp;</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="odd">
+                                                            <td>1</td>
+                                                            <td>9999</td>
+                                                            <td>breakdown21stams@gmail.com</td>
+                                                            <td>Ammar</td>
+                                                            <td>Shrestha</td>
+                                                            <td>Developer</td>
+                                                            <td>Human Resources</td>
+                                                            <td><a href="profile.php" class="btn btn-default btn-xs blue"><i class="fa fa-edit"></i> Edit</a><a href="#" class="btn btn-default btn-xs black"><i class="fa fa-trash-o"></i> Delete</a></td>                                
+                                                        </tr>
+                                                        <tr class="odd">
+                                                            <td>1</td>
+                                                            <td>9999</td>
+                                                            <td>breakdown21stams@gmail.com</td>
+                                                            <td>Ammar</td>
+                                                            <td>Shrestha</td>
+                                                            <td>Developer</td>
+                                                            <td>Human Resources</td>
+                                                            <td><a href="profile.php" class="btn btn-default btn-xs blue"><i class="fa fa-edit"></i> Edit</a><a href="#" class="btn btn-default btn-xs black"><i class="fa fa-trash-o"></i> Delete</a></td>                                                               
+                                                        </tr>
+                                                        <tr class="odd">
+                                                            <td>1</td>
+                                                            <td>9999</td>
+                                                            <td>breakdown21stams@gmail.com</td>
+                                                            <td>Ammar</td>
+                                                            <td>Shrestha</td>
+                                                            <td>Developer</td>
+                                                            <td>Human Resources</td>
+                                                            <td><a href="profile.php" class="btn btn-default btn-xs blue"><i class="fa fa-edit"></i> Edit</a><a href="#" class="btn btn-default btn-xs black"><i class="fa fa-trash-o"></i> Delete</a></td>                                
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="salarysheet" class="tab-pane">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-xs-12 col-md-12">
+                                                <div class="well with-header with-footer">
+                                                    <div class="header bordered-blue">
+                                                        Salary Sheet
+                                                    </div>
+                                                    <div class="table-scrollable">
+                                                        <table class="table table-striped table-bordered table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col" style="width:450px !important">
+                                                                        Column header 1
+                                                                    </th>
+                                                                    <th scope="col">
+                                                                        Column header 2
+                                                                    </th>
+                                                                    <th scope="col">
+                                                                        Column header 3
+                                                                    </th>
+                                                                    <th scope="col">
+                                                                        Column header 4
+                                                                    </th>
+                                                                    <th scope="col">
+                                                                        Column header 5
+                                                                    </th>
+                                                                    <th scope="col">
+                                                                        Column header 6
+                                                                    </th>
+                                                                    <th scope="col">
+                                                                        Column header 7
+                                                                    </th>
+                                                                    <th scope="col">
+                                                                        Column header 8
+                                                                    </th>
+                                                                    <th scope="col">
+                                                                        Column header 9
+                                                                    </th>
+                                                                    <th scope="col">
+                                                                        Column header 10
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                    <td>
+                                                                        Table data
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="settings" class="tab-pane">
+                                    <form role="form">
+                                        <div class="form-title">
+                                            Personal Information
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" class="form-control" placeholder="Name">
+                                                        <i class="fa fa-user blue"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" class="form-control" placeholder="Family">
+                                                        <i class="fa fa-user orange"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" class="form-control" placeholder="Phone">
+                                                        <i class="glyphicon glyphicon-earphone yellow"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" class="form-control" placeholder="Mobile">
+                                                        <i class="glyphicon glyphicon-phone palegreen"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="wide">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <span class="input-icon icon-right">
+                                                        <input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" placeholder="Birth Date">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" class="form-control" placeholder="Birth Place">
+                                                        <i class="fa fa-globe"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-title">
+                                            Social Networks
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" class="form-control" placeholder="Facebook">
+                                                        <i class="fa fa-facebook purple"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" class="form-control" placeholder="Twitter">
+                                                        <i class="fa fa-twitter azure"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" class="form-control" placeholder="Pinterest">
+                                                        <i class="fa fa-pinterest red"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" class="form-control" placeholder="Flickr">
+                                                        <i class="fa fa-flickr blue"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-title">
+                                            Contact Information
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" class="form-control" placeholder="Address 1">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" class="form-control" placeholder="Address 1">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Save Profile</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Page Body -->
+
+
+<?php
+$uripart = '';
+if($search)
+{
+$uripart .= '/search';
+if($searchkey) 
+$uripart .= '/'.$searchkey;
+if($offset)
+$uripart .= '/'.$offset;
+}
+else
+{
+if($offset)
+$uripart .= '/'.$offset;
+}
+?>
+
+<?php
+if ($this->session->flashdata('error')) {
+echo '<div class="notibar msgalert"><a class="close"></a>' . $this->session->flashdata('error') . '</div>';
+}
+
+if ($this->session->flashdata('success'))
+echo '<div class="notibar msgsuccess">
+<a class="close"></a><p>' . $this->session->flashdata('success') . '</p></div>';
+?>
+
+<!-- Page Header -->
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+            Manage Employee
+        </h1>
+    </div>
+</div>
+<!-- /Page Header -->
+<!-- /Page Header -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header ">
+                    <span class="widget-caption">Employee List</span>
+                </div>
+                <div class="col-xs-12">
+                    <a class="btn btn-small btnradious btn-primary" onclick="history.back()" href="index.php"><i class="fa fa-angle-double-left"></i> Back</a>
+                    <a href="<?php echo base_url("employee/add"); ?>" title="Add" class="btn btn-small btn-primary">Add New <i class="fa fa-plus"></i></a>
+                </div>
+                <div class="widget-body">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr role="row">
+                                <th>
+                                    Employee Full Name
+                                </th>
+                                <th>
+                                    Username
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Department
+                                </th>
+                                <th>
+                                    Added Date
+                                </th>
+                                <th>
+                                    Options
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <?php if( isset($record) ) { $i = 1;?>
+                        <?php foreach( $record as $val ) { if($i++ % 2 == 0) {$class = 'class="gradeX"';} else {$class = 'class="gradeX"';}?>
+                        <tr <?php echo $class;?>>
+                            <td>
+                                <span style="display: none">
+                                    <input type="checkbox" id="check_all[]" name="check_all[]" value="<?php echo $val->ID;?>" />
+                                </span>
+                                <a href="<?php echo base_url();?>employee/detail/<?php echo $val->ID;?>"><?php echo $val->first_name?>&nbsp;<?php echo $val->last_name?></a></td>
+                            <td><a href="<?php echo base_url();?>employee/detail/<?php echo $val->ID;?>"><?php echo $val->username?></a></td>
+                            <td><a href=""><?php echo $val->email?></a></td>
+                            <td class="center"><?php echo $val->joining_date?></td>
+                            <td class="center">
+                                <a href="<?php echo base_url();?>employee/status/<?php echo ($val->status == 1)?'deactivate':'activate';?>/<?php echo $val->ID?><?php echo $uripart?>" onclick="if (!confirm('Are you sure you want to <?php echo ($val->status == 1)?'deactivate':'activate';?> this record??')) return false;"><?php echo ($val->status == 1)?'<font color="green">Active</font>':'<font color="red">Inactive</font>';?></a></td>
+                            <td class="center">
+                                <a href="<?php echo base_url(); ?>employee/edit/<?php echo $val->ID; ?>" title="Edit" class="edit"><img src="../images/edit.png" /></a> &nbsp; 
+                                <a href="<?php echo base_url(); ?>employee/delete/<?php echo $val->ID; ?><?php echo $uripart?>" onclick="if (!confirm('Are you sure you want to delete this record??'))
+                                            return false;" title="Delete" class="delete"><img src="../images/trash.png" /></a> &nbsp;
+                                <a href="<?php echo base_url();?>employee/detail/<?php echo $val->ID; ?>" title="Detail" class="edit"><img src="../images/icons/attachment.png" /></a> &nbsp;
+
+                                <a href="<?php echo base_url();?>employee/aroles/<?php echo $val->ID; ?>" title="Manage/Assign Roles" class="edit"><img src="../images/addfolder.png" /></a> &nbsp;
+
+                                <a href="<?php echo base_url();?>employee/aperms/<?php echo $val->ID; ?>" title="Manage/Assign Permissions" class="edit"><img src="../images/permission.png" /></a> &nbsp;
+
+                                <a href="<?php echo base_url();?>employee/vperms/<?php echo $val->ID;?>" class="edit" title="View Permissions"><img src="../images/vpermission.png" /></a>
+                            </td>
+                        </tr>
+                        <?php } ?>
+                        <?php } else { ?>
+                        <tr>
+                            <td colspan="6" style="text-align:center; color:#F00"> <strong>Sorry No Record(s) Found </strong></td>
+                        </tr>
+                        <?php } ?>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Page Content -->
+
+
+
+
+
+
+
+
+

@@ -1,61 +1,90 @@
-<div class="pageheader">
-    <h1 class="pagetitle">Departments</h1>
-    <span class="pagedesc"></span>
-
-    <ul class="hornav">
-        <li class="current"><a href="#basicform"> <?php echo ucfirst($method); ?> Details</a></li>
-
-    </ul>
+<!-- Page Header -->
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+            Department
+        </h1>
+    </div>
 </div>
-<div id="contentwrapper" class="contentwrapper">
+<!-- /Page Header -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
 
-    <div id="basicform" class="subcontent">
+            <div class="row">
+                <div class="widget">
+                    <div class="widget-header bordered-bottom bordered-blue">
+                        <span class="widget-caption">Add Department</span>
+                    </div>
+                    <div class="widget-body flat radius-bordered">
+                        <div id="registration-form">
+                            <?php
+                            if (validation_errors()) {
+                                ?>
+                                <div class="notibar announcement">
+                                    <a class="close"></a>
+                                    <h3>Validation Errors</h3>
+                                    <p><?php echo validation_errors() ?></p>
+                                </div>
 
-        <!--        <div class="contenttitle2">
-                    <h3> <?php echo ucfirst($method); ?></h3>
-                </div>contenttitle-->
+                                <?php
+                            }
+                            ?>
 
-        <?php
-        if (validation_errors())
-            echo '<div class="notibar msgerror">
-             <a class="close"></a>' . validation_errors() . '</div>';
+                            <?php
+                            if ($this->session->flashdata('success')) {
+                                ?>
+                                <div class="notibar msgsuccess">
+                                    <a class="close"></a>
+                                    <p><?php echo $this->session->flashdata('success') ?></p>
+                                </div>
+                                <?php
+                            }
+                            ?>
 
-        if ($this->session->flashdata('success'))
-            echo '  <div class="notibar msgsuccess">
-                        <a class="close"></a><p>' . $this->session->flashdata('success') . '</p></div>';
-
-        if ($this->session->flashdata('error'))
-            echo '<div class="notibar msgalert">
-                        <a class="close"></a>' . $this->session->flashdata('error') . '</div>';
-        ?> 
-        <?php echo form_open_multipart(uri_string(), array('class' => 'stdform stdform2')); ?>
-
-
-        <p>
-            <label>Department Name</label>
-            <span class="field">
-                <input type="text" name="department_name" id="title" value="<?php echo (@$_POST['department_name']) ? $_POST['department_name'] : $editData->department_name; ?>" class="inp-form" />
-            </span>
-        </p>
-        
-        <p>
-            <label>Department Code</label>
-            <span class="field">
-                <input type="text" name="department_code" id="title" value="<?php echo (@$_POST['department_code']) ? $_POST['department_code'] : $editData->department_code; ?>" class="inp-form" />
-            </span>
-        </p>
-        
-        <p class="stdformbutton">
-            <button class="submit radius2">Submit Button</button>
-            <input type="reset" class="reset radius2" value="Reset Button" />
-        </p>
-        </form>
-
-        <br />
-
-
-    </div><!--subcontent-->
-
-
-
-</div><!--contentwrapper-->
+                            <?php
+                            if ($this->session->flashdata('error')) {
+                                ?>
+                                <div class="notibar msgerror">
+                                    <a class="close"></a>
+                                    <p><?php echo $this->session->flashdata('error') ?></p>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                            <?php echo form_open_multipart(uri_string(), array('role' => 'form1', 'class' => 'stdform stdform2', 'id' => 'html5Form', 'data-bv-message' => 'This value is not valid', 'data-bv-feedbackions-valid' => 'glyphicon glyphicon-ok', 'data-bv-feedbackicons-invalid' => 'glyphicon glyphicon-remove', 'data-bv-feedbackicons-validating' => 'glyphicon glyphicon-refresh')); ?>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="first_name" class="required">Department Name <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" name="department_name" class="form-control" value="<?php echo (@$_POST['department_name']) ? $_POST['department_name'] : $editData->department_name; ?>" data-bv-message="The Department Name is not valid"
+                                                   required
+                                                   data-bv-notempty-message="The Department Name is required and cannot be empty"
+                                                   pattern="[a-zA-Z0-9]+"
+                                                   data-bv-regexp-message="The Department Name can only consist of alphabetical, number" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="department_code_name">Department Code<span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" name="department_code" class="form-control" value="<?php echo (@$_POST['department_code']) ? $_POST['department_code'] : $editData->department_code; ?>" data-bv-message="The Department Code is not valid"
+                                                   required
+                                                   data-bv-notempty-message="The Department Code is required and cannot be empty"
+                                                   pattern="[a-zA-Z0-9]+"
+                                                   data-bv-regexp-message="The Department Code can only consist of alphabetical, number" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn btn-blue">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

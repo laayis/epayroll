@@ -52,14 +52,8 @@
                 <div class="loginbox-textbox">
                     <input type="password" class="form-control" placeholder="Password"  name="password" id="password" required />
                 </div>
-                <div class="loginbox-textbox">
-                    <select class="form-control" name="type">
-                        <option value="Admin">Admin</option>
-                        <option value="Employee">Employee</option>
-                    </select>
-                </div>
                 <div class="loginbox-forgot">
-                    <a href="">Forgot Password?</a>
+                    <a href="<?php site_url('#')?>">Forgot Password?</a>
                 </div>
                 <div class="loginbox-submit">
                     <button class="btn btn-block btn-primary">Login<span class="icon-arrow-right"></span></button>

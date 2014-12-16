@@ -1,125 +1,268 @@
-<div class="centercontent">
-    
-        <div class="pageheader">
-            <h1 class="pagetitle">User: Edit</h1>
-            <span class="pagedesc">Please enter the user information provided in the form below.</span>
-            
-<!--             <ul class="hornav"> -->
-<!--                 <li class="current"><a href="#basicform">Basic</a></li> -->
-<!--                 <li><a href="#validation">Validation</a></li> -->
-<!--             </ul> -->
-        </div><!--pageheader-->
-        
-        <div id="contentwrapper" class="contentwrapper">
-        	
-        	<?php
-			if( validation_errors() ) { 
-			?>
-			<div class="notibar announcement">
-                        <a class="close"></a>
-                        <h3>Validation Errors Occurs</h3>
-                        <p><?php echo validation_errors()?></p>
-                    </div>
-			
-			<?php 
-			} 
-			?>
+<!-- Page Header -->
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+            Edit Employee
+        </h1>
+    </div>
+</div>
+<!-- /Page Header -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
 
-			<?php 
-			if( $this->session->flashdata( 'success' ) ) {
-			?>
-			<div class="notibar msgsuccess">
-                        <a class="close"></a>
-                        <p><?php echo $this->session->flashdata( 'success' )?></p>
+            <div class="row">
+                <div class="widget">
+                    <div class="widget-header bordered-bottom bordered-blue">
+                        <span class="widget-caption">Please enter the employee information provided in the form below.</span>
                     </div>
-          	<?php 
-          	}
-          	?>
-			
+                    <div class="widget-body flat radius-bordered">
+                        <div id="registration-form">
+                            <?php
+                            if (validation_errors()) {
+                                ?>
+                                <div class="notibar announcement">
+                                    <a class="close"></a>
+                                    <h3>Validation Errors</h3>
+                                    <p><?php echo validation_errors() ?></p>
+                                </div>
 
-          	<?php 
-			if( $this->session->flashdata( 'error' ) ) { 
-			?>
-			<div class="notibar msgerror">
-                        <a class="close"></a>
-                        <p><?php echo $this->session->flashdata( 'error' )?></p>
+                                <?php
+                            }
+                            ?>
+
+                            <?php
+                            if ($this->session->flashdata('success')) {
+                                ?>
+                                <div class="notibar msgsuccess">
+                                    <a class="close"></a>
+                                    <p><?php echo $this->session->flashdata('success') ?></p>
+                                </div>
+                                <?php
+                            }
+                            ?>
+
+                            <?php
+                            if ($this->session->flashdata('error')) {
+                                ?>
+                                <div class="notibar msgerror">
+                                    <a class="close"></a>
+                                    <p><?php echo $this->session->flashdata('error') ?></p>
+                                </div>
+                                <?php
+                            }
+                            ?>
+
+                            <?php echo form_open_multipart("employee/edit" . $record->ID, array('role' => 'form1', 'id' => 'html5Form', 'data-bv-message' => 'This value is not valid', 'data-bv-feedbackions-valid' => 'glyphicon glyphicon-ok', 'data-bv-feedbackicons-invalid' => 'glyphicon glyphicon-remove', 'data-bv-feedbackicons-validating' => 'glyphicon glyphicon-refresh')); ?>
+                            <input type="hidden" name="id" id="id" value="<?php echo $record->ID; ?>">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="first_name" class="required">First Name <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" name="first_name" class="form-control" value="<?php echo @$_POST['first_name'] ? @$_POST['first_name'] : $record->first_name; ?>" data-bv-message="The First Name is not valid"
+                                                   required
+                                                   data-bv-notempty-message="The First Name is required and cannot be empty"
+                                                   pattern="[a-zA-Z0-9]+"
+                                                   data-bv-regexp-message="The First Name can only consist of alphabetical, number">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="middle_name">Middle Name</label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" name="middle_name" class="form-control" value="<?php echo @$_POST['middle_name'] ? @$_POST['middle_name'] : $record->middle_name; ?>" data-bv-message="The Last Name is not valid" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="last_name">Last Name <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" name="last_name" class="form-control" value="<?php echo @$_POST['last_name'] ? @$_POST['last_name'] : $record->last_name; ?>" data-bv-message="The Last Name is not valid"
+                                                   required
+                                                   data-bv-notempty-message="The Last Name is required and cannot be empty"
+                                                   pattern="[a-zA-Z0-9]+"
+                                                   data-bv-regexp-message="The Last Name can only consist of alphabetical, number">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="username">Username<span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" name="username" class="form-control" value="<?php echo @$_POST['username'] ? @$_POST['username'] : $record->username ?>" data-bv-message="The Username is not valid"
+                                                   required
+                                                   data-bv-notempty-message="The Username is required and cannot be empty"
+                                                   pattern="[a-zA-Z0-9]+"
+                                                   data-bv-regexp-message="The Username can only consist of alphabetical, number">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="password">Password <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input class="form-control" type="password" value="<?php @$_POST['password'] ?>" data-bv-notempty="true" data-bv-notempty-message="The password is required and cannot be empty" data-bv-identical="true" data-bv-identical-field="password_confirm" data-bv-identical-message="The password and its confirm are not the same" data-bv-different="true" data-bv-different-field="username" data-bv-different-message="The password cannot be the same as username" data-bv-field="password">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="cpassword">Confirm Password<span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="password" name="cpassword" class="form-control" value="<?php @$_POST['cpassword'] ?>" name="cpassword" data-bv-notempty="true" data-bv-notempty-message="The confirm password is required and cannot be empty" data-bv-identical="true" data-bv-identical-field="password" data-bv-identical-message="The password and its confirm are not the same" data-bv-different="true" data-bv-different-field="username" data-bv-different-message="The password cannot be the same as username" data-bv-field="confirmPassword">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="email">Email<span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="email" name="email" class="form-control" value="<?php @$_POST['email'] ? @$_POST['email'] : $record->email; ?>" required
+                                                   type="email" data-bv-emailaddress-message="The input is not a valid email address">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="address">Address <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input class="form-control" name="address" type="text" value="<?php @$_POST['address'] ? @$_POST['adddress'] : $record->address; ?> "
+                                                   required
+                                                   data-bv-notempty-message="The Address is required and cannot be empty" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="phone">Phone Number <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" name="phone" class="form-control" value="<?php echo @$_POST['phone'] ? @$_POST['phone'] : $record->phone; ?>" required
+                                                   data-bv-notempty-message="The Phone is required and cannot be empty" >
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="department">Department <span class="required">*</span></label>
+                                        <select id="department_name" name="department_name" class="form-control" required data-bv-notempty-message="The Department Name is required and cannot be empty">
+                                            <option value="<?php echo @$_POST['department_name'] ? @$_POST['department_name'] : $record->department_name; ?>"/>
+                                            <option value="Ac" />Account
+                                            <option value="Ex" />Executive
+                                            <option value="Hr" />Human Resources
+                                            <option value="Re" />Research
+                                            <option value="De" />Development
+                                        </select>                                            
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="designation_name">Designation <span class="required"> * </span></label>
+                                        <select id="designation_name" name="designation_name" class="form-control" value="<?php echo @$_POST['designation_name'] ? @$_POST['designation_name'] : $record->designation_name; ?>" required
+                                                data-bv-notempty-message="The Designation Name is required and cannot be empty">
+                                            <option value="">
+                                            <option value="3" />Programmer
+                                            <option value="2" />Designer
+                                            <option value="1" />Officer
+                                        </select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="grade">Grade <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <select id="grade" name="grade" class="form-control" value="<?php echo @$_POST['grade'] ? @$_POST['grade'] : $record->grade; ?>" required
+                                                    data-bv-notempty-message="The Grade is required and cannot be empty">
+                                                <option value="">
+                                                <option value="1" />A
+                                                <option value="2" />B
+                                                <option value="3" />C
+                                                <option value="3" />D
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="basic_salary">Basic Salary<span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <select id="basic_salary" name="grade" class="form-control" value="<?php echo @$_POST['basic_salary'] ? @$_POST['basic_salary'] : $record->basic_salary; ?>" required
+                                                    data-bv-notempty-message="The Basic Salary is required and cannot be empty">
+                                                <option value="">
+                                                <option value="1" />Rs.80000
+                                                <option value="2" />Rs.60000
+                                                <option value="3" />Rs.20000
+                                                <option value="3" />Rs.10000
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="marital_status">Marital Status <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <select name="marital_status" class="form-control" id="marital_status" value="<?php echo @$_POST['marital_status'] ? @$_POST['marital_status'] : $record->marital_status; ?>" required>
+                                                <option value="">Select Marital Status</option>
+                                                <option value="M">Married</option>
+                                                <option value="S">Single</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="probation_status">Probation Status <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <select name="probation_status" class="form-control" id="probation_status" value="<?php echo @$_POST['probation_status'] ? @$_POST['probation_status'] : $record->probation_status; ?>" required>
+                                                <option value="">Select Status</option>
+                                                <option value="1">Probation</option>
+                                                <option value="0">Permanent</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="joining_date">Joining Date <span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input class="form-control date-picker" name="joining_date" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" value="<?php echo @$_POST['joining_date'] ? @$_POST['joininig_date'] : $record->joining_date; ?>" 
+                                                   required data-bv-notempty-message="The Date is required and cannot be empty" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="age">Age<span class="required">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" name="age" class="form-control" value="<?php @$_POST['age'] ? @$_POST['age'] : $record->age; ?>" required
+                                                   min="10"
+                                                   data-bv-greaterthan-inclusive="false"
+                                                   data-bv-greaterthan-message="The input must be greater than or equal to 10"
+                                                   max="100"
+                                                   data-bv-lessthan-inclusive="true"
+                                                   data-bv-lessthan-message="The input must be less than 100">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn btn-blue">Submit</button>
+                            </form>
+                        </div>
                     </div>
-            <?php 
-			} 
-			?>
-		    
-            <div id="validation" class="subcontent" style="display: ">
-            	
-                    <?php echo form_open_multipart( "user/edit/" . $record->ID, array('class'=>'stdform', 'id'=>'form1') );?>
-<!--                     <form id="form1" class="stdform" method="post" action="#"> -->
-                    <input type="hidden" name="id" id="id" value="<?php echo $record->ID;?>">
-                    	<p>
-                        	<label>Username</label>
-                            <span class="field"><input type="text" name="username" id="username"
-												value="<?php echo @$_POST['username'] ? @$_POST['username'] : $record->username?>" class="longinput" /></span>
-                        </p>
-                        
-                        <p>
-                        	<label>Password</label>
-                            <span class="field"><input type="text" name="password" id="password"
-												value="<?php echo @$_POST['password']?>" class="longinput" /></span>
-                        </p>
-                        
-                        <p>
-                        	<label>Confirm Password</label>
-                            <span class="field"><input type="text" name="cpassword" id="cpassword"
-												value="<?php echo @$_POST['cpassword']?>" class="longinput" /></span>
-                        </p>
-                        
-                    	<p>
-                        	<label>First Name</label>
-                            <span class="field"><input type="text" name="fname" id="fname"
-												value="<?php echo @$_POST['fname'] ? @$_POST['fname'] : $record->fname;?>" class="longinput" /></span>
-                        </p>
-                        
-                        <p>
-                        	<label>Middle Name</label>
-                            <span class="field"><input type="text" name="mname" id="mname"
-												value="<?php echo @$_POST['mname'] ? @$_POST['mname'] : $record->mname;?>" class="longinput" /></span>
-                        </p>
-                        
-                        <p>
-                        	<label>Last Name</label>
-                            <span class="field"><input type="text" name="lname" id="lname"
-												value="<?php echo @$_POST['lname'] ? @$_POST['lname'] : $record->lname;?>" class="longinput" /></span>
-                        </p>
-                        
-                        <p>
-                        	<label>Email</label>
-                            <span class="field"><input type="text" name="email" id="email"
-												value="<?php echo @$_POST['email'] ? @$_POST['email'] : $record->email;?>" class="longinput" /></span>
-                        </p>
-                        
-                        <p>
-                        	<label>Position</label>
-                            <span class="field"><input type="text" name="position" id="position"
-												value="<?php echo @$_POST['position'] ? @$_POST['position'] : $record->position;?>" class="longinput" /></span>
-                        </p>
-                        
-                        <p>
-                        	<label>Image</label>
-                            <span class="field"><input type="file" class="file_1" name="uimage" /></span> 
-                        </p>
-                        
-                        <p>
-                        	<label>Description</label>
-                            <span class="field"><textarea cols="80" rows="5" name="desc" id="desc" class="mediuminput" required><?php echo @$_POST['desc'] ? @$_POST['desc'] : $record->desc;?></textarea></span> 
-                        </p>
-                        
-                        <br />
-                        
-                        <p class="stdformbutton">
-                        	<button class="submit radius2">Submit Button</button>
-                        </p>
-                    </form>
-
-            </div><!--subcontent-->
-        
-        </div><!--contentwrapper-->
-        
-	</div><!-- centercontent -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

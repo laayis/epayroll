@@ -5,22 +5,66 @@
             Dashboard
         </h1>
     </div>
-    <!--Header Buttons-->
-    <div class="header-buttons">
-        <a class="sidebar-toggler" href="#">
-            <i class="fa fa-arrows-h"></i>
-        </a>
-        <a class="refresh" id="refresh-toggler" href="">
-            <i class="glyphicon glyphicon-refresh"></i>
-        </a>
-        <a class="fullscreen" id="fullscreen-toggler" href="#">
-            <i class="glyphicon glyphicon-fullscreen"></i>
-        </a>
-    </div>
-    <!--Header Buttons End-->
 </div>
 <!-- /Page Header -->
 <div class="page-body">
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-blue">
+                <div class="inner">
+                    <h3 id="lastPunchTime">Not</h3>
+                    <p id="punchTimeText">Punched In</p>
+                </div>
+
+                <a href="<?php echo site_url('attendance/punchin');?>" class="small-box-footer" id="atteandanceLink">
+                    Record Attendance <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div><!-- ./col -->						                        
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-blue">
+                <div class="inner">
+                    <h3 id="pendingLeaveCount">10</h3>
+                    <p>
+                        RBAC
+                    </p>
+                </div>
+                <a href="<?php echo site_url('rbac');?>" class="small-box-footer" id="leavesLink">
+                    Role Based Access Control <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-blue">
+                <div class="inner">
+                    <h3 id="timeSheetHoursWorked">50</h3>
+                    <p>
+                        Manage Employee
+                    </p>
+                </div>
+                <a href="<?php echo site_url('employee');?>" class="small-box-footer" id="timesheetLink">
+                    Manage Employee <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-blue">
+                <div class="inner">
+                    <h3 id="numberOfProjects">4</h3>
+                    <p>
+                        Report
+                    </p>
+                </div>
+                <a href="<?php echo site_url('report');?>" class="small-box-footer" id="projectsLink">
+                    More info <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div><!-- ./col -->                        
+    </div>
     <div class="row">
         <div class="col-xs-12 col-md-8 margin-bottom-20">
             <div class="profile-container">
@@ -32,7 +76,8 @@
                         <div class="header-fullname"><a href="<?php site_url('profile') ?>">My Information</a></div>
                         <div class="header-information">
                             <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                                <tbody><tr>
+                                <tbody>
+                                    <tr>
                                         <td class="info-label">Name - </td>
                                         <td class="info-content">Ammar  Shrestha</td>
                                         <td class="info-label">Birth Date -</td>
@@ -86,6 +131,64 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td><a href="<?php echo site_url('attendance/employeeattendance') ?>" class="small-box-footer" id="atteandanceLink">
+                                        Record Attendance <i class="fa fa-arrow-circle-right"></i>
+                                    </a>
+                                </td>
+                                <td><a href="<?php echo site_url('attendance/employeeattendance') ?>" class="small-box-footer" id="atteandanceLink">
+                                        View Salary<i class="fa fa-arrow-circle-right"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="<?php echo site_url('attendance/employeeattendance') ?>" class="small-box-footer" id="atteandanceLink">
+                                        Record Attendance <i class="fa fa-arrow-circle-right"></i>
+                                    </a>
+                                </td>
+                                <td><a href="<?php echo site_url('attendance/employeeattendance') ?>" class="small-box-footer" id="atteandanceLink">
+                                        View Salary<i class="fa fa-arrow-circle-right"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="<?php echo site_url('attendance/employeeattendance') ?>" class="small-box-footer" id="atteandanceLink">
+                                        Record Attendance <i class="fa fa-arrow-circle-right"></i>
+                                    </a>
+                                </td>
+                                <td><a href="<?php echo site_url('attendance/employeeattendance') ?>" class="small-box-footer" id="atteandanceLink">
+                                        View Salary<i class="fa fa-arrow-circle-right"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="<?php echo site_url('attendance/employeeattendance') ?>" class="small-box-footer" id="atteandanceLink">
+                                        Record Attendance <i class="fa fa-arrow-circle-right"></i>
+                                    </a>
+                                </td>
+                                <td><a href="<?php echo site_url('attendance/employeeattendance') ?>" class="small-box-footer" id="atteandanceLink">
+                                        View Salary<i class="fa fa-arrow-circle-right"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="<?php echo site_url('attendance/employeeattendance') ?>" class="small-box-footer" id="atteandanceLink">
+                                        Record Attendance <i class="fa fa-arrow-circle-right"></i>
+                                    </a>
+                                </td>
+                                <td><a href="<?php echo site_url('attendance/employeeattendance') ?>" class="small-box-footer" id="atteandanceLink">
+                                        View Salary<i class="fa fa-arrow-circle-right"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="<?php echo site_url('attendance/employeeattendance') ?>" class="small-box-footer" id="atteandanceLink">
+                                        Record Attendance <i class="fa fa-arrow-circle-right"></i>
+                                    </a>
+                                </td>
+                                <td><a href="<?php echo site_url('attendance/employeeattendance') ?>" class="small-box-footer" id="atteandanceLink">
+                                        View Salary<i class="fa fa-arrow-circle-right"></i>
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -177,20 +280,37 @@
                 <div class="col-lg-12">
                     <div class="widget">
                         <div class="widget-header bordered-bottom bordered-themesecondary">
-                            <i class="widget-icon glyphicon glyphicon-envelope"></i>
-                            <span class="widget-caption themesecondary">Message Of the Day</span>
+                            <i class="widget-icon glyphicon glyphicon-pencil"></i>
+                            <span class="widget-caption themesecondary">Office Time</span>
                         </div><!--Widget Header-->
-                        <div class="well">
-                            <div class="modal-preview">
-                                <div class="modal modal-primary">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <p>Better be alone than a bad company</p>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="tickets-container">
+                                    <ul class="tickets-list">
+                                        <li class="ticket-item">
+                                            <div class="row">
+                                                <div class="ticket-user col-lg-6 col-sm-12">
+                                                    <a target="_blank" href="#">In Time</a>
+                                                </div>
+                                                <div class="ticket-time  col-lg-6 col-sm-6 col-xs-12">
+                                                    <div class="divider hidden-md hidden-sm hidden-xs"></div>
+                                                    <span class="time">9:00 AM</span>
+                                                </div>
                                             </div>
-                                        </div><!-- /.modal-content -->
-                                    </div><!-- /.modal-dialog -->
-                                </div><!-- /.modal -->
+                                        </li>
+                                        <li class="ticket-item">
+                                            <div class="row">
+                                                <div class="ticket-user col-lg-6 col-sm-12">
+                                                    <a target="_blank" href="#">Out time</a>
+                                                </div>
+                                                <div class="ticket-time  col-lg-6 col-sm-6 col-xs-12">
+                                                    <div class="divider hidden-md hidden-sm hidden-xs"></div>
+                                                    <span class="time">5:00 PM</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -198,5 +318,4 @@
             </div>
         </div>
     </div>
-
 </div>

@@ -1,5 +1,5 @@
 <div class="pageheader">
-    <h1 class="pagetitle">Departments</h1>
+    <h1 class="pagetitle">Allowancess</h1>
     <span class="pagedesc"></span>
 
     <ul class="hornav">
@@ -32,16 +32,16 @@
 
 
         <p>
-            <label>Department Name</label>
+            <label>Allowances Type</label>
             <span class="field">
-                <input type="text" name="department_name" id="title" value="<?php echo (@$_POST['department_name']) ? $_POST['department_name'] : $editData->department_name; ?>" class="inp-form" />
+                <input type="text" name="allowances_type" id="title" value="<?php echo (@$_POST['department_name']) ? $_POST['department_name'] : $editData->department_name; ?>" class="inp-form" />
             </span>
         </p>
         
         <p>
-            <label>Department Code</label>
+            <label>Allowances Amount</label>
             <span class="field">
-                <input type="text" name="department_code" id="title" value="<?php echo (@$_POST['department_code']) ? $_POST['department_code'] : $editData->department_code; ?>" class="inp-form" />
+                <input type="text" name="allowances_amount" id="title" value="<?php echo (@$_POST['department_code']) ? $_POST['department_code'] : $editData->department_code; ?>" class="inp-form" />
             </span>
         </p>
         

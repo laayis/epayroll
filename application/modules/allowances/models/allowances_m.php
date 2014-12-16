@@ -2,10 +2,10 @@
 
 class Department_m extends MY_Model {
 
-    public $_table_name = 'department';
-    protected $_primary_key = 'department_id';
+    public $_table_name = 'allowances';
+    protected $_primary_key = 'allowances_id';
     protected $_primary_filter = 'intval';
-    protected $_order_by = 'department_id';
+    protected $_order_by = 'allowances_id';
     protected $_timestamps = FALSE;
 
     public function __construct() {

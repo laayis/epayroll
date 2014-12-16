@@ -7,18 +7,21 @@
         <link rel="shortcut icon" href="<?php echo base_url() ?>assets/img/favicon.png" type="image/x-icon">
             <!--Basic Styles-->
             <link href="<?php echo base_url() ?>assets/css/bootstrap.min.css" rel="stylesheet" />
+            <link href="<?php echo base_url() ?>assets/css/font-awesome.css" rel="stylesheet" />
             <link href="<?php echo base_url() ?>assets/css/font-awesome.min.css" rel="stylesheet" />
             <link href="<?php echo base_url() ?>assets/css/weather-icons.min.css" rel="stylesheet" />
 
             <!--styles-->
             <link href="<?php echo base_url() ?>assets/css/master.css" rel="stylesheet" />
             <link href="<?php echo base_url() ?>assets/css/style.css" rel="stylesheet" type="text/css" />
-            <link href="<?php echo base_url() ?>assets/css/demo.min.css" rel="stylesheet" />
             <link href="<?php echo base_url() ?>assets/css/typicons.min.css" rel="stylesheet" />
             <link href="<?php echo base_url() ?>assets/css/animate.min.css" rel="stylesheet" />
-
             <!--Page Related styles-->
             <link href="<?php echo base_url() ?>assets/css/dataTables.bootstrap.css" rel="stylesheet" />
+            <link href="<?php echo base_url() ?>assets/css/bootstrap.datetimepicker.css" rel="stylesheet" />
+            <link href="<?php echo base_url() ?>assets/css/datepicker.css" rel="stylesheet" />
+            <link href="<?php echo base_url() ?>assets/css/jquery.timepicker.css" rel="stylesheet" />
+            <link href="<?php echo base_url() ?>assets/css/select2.css" rel="stylesheet" />
 
             <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
             <script src="<?php echo base_url() ?>assets/js/skins.min.js"></script>
@@ -28,10 +31,17 @@
         <!-- header menu /starts/ -->
         <?php $this->load->view('headermenu'); ?>
         <!-- header menu /ends/ -->
+        <?php
+        $admin_userdata = $this->session->userdata(APP_PFIX . 'admin');
+        if(!$admin_userdata['logged_in_admin'])
+        {
+            redirect('login/index');
+        } 
+        else {
+            $this->load->view('leftnav2');
+        }
+        ?>
 
-        <!-- left menu /starts/ -->
-        <?php $this->load->view('leftnav2'); ?>
-        <!-- left menu /ends/ -->
         <!-- Page Content -->
         <div class="page-content">
             <?php $this->load->view('breadcrumb') ?>
@@ -44,48 +54,77 @@
         </div>
         <!-- /Page Container -->
         <!-- Main Container -->
-        <!--Small Modal Templates-->
-        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
 
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title" id="mySmallModalLabel">Save Logout Time</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form-inline" role="form">
-                            <div class="form-group">
-                                <label class="" for="Time">Time</label>
-                                <input class="form-control" id="timepicker1" type="text">
-                            </div>
-                            <button type="submit" class="btn btn-default pull-right">Submit</button>
-                        </form>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div>
-        <!--End Small Modal Templates-->
+        <!--Basic Scripts-->
+        <script src="<?php echo base_url() ?>assets/js/jquery-2.0.3.min.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/bootstrap.min.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/jquery-ui-1.10.4.custom.js"></script>
 
-       <!--Basic Scripts-->
-    <script src="<?php echo base_url() ?>assets/js/jquery-2.0.3.min.js"></script>
-    <script src="<?php echo base_url() ?>assets/js/bootstrap.min.js"></script>
+        <!--Beyond Scripts-->
+        <script src="<?php echo base_url() ?>assets/js/beyond.min.js"></script>
 
-    <!--Beyond Scripts-->
-    <script src="<?php echo base_url() ?>assets/js/beyond.min.js"></script>
-<!--Page Related Scripts-->
-    <script src="<?php echo base_url() ?>assets/js/jquery.dataTables.min.js"></script>
-    <script src="<?php echo base_url() ?>assets/js/ZeroClipboard.js"></script>
-    <script src="<?php echo base_url() ?>assets/js/dataTables.tableTools.min.js"></script>
-    <script src="<?php echo base_url() ?>assets/js/dataTables.bootstrap.min.js"></script>
-    <script src="<?php echo base_url() ?>assets/js/datatables-init.js"></script>
-    <script>
-        InitiateSimpleDataTable.init();
-        InitiateEditableDataTable.init();
-        InitiateExpandableDataTable.init();
-        InitiateSearchableDataTable.init();
-    </script>
+        <!--Page Related Scripts for data tables-->
+        <script src="<?php echo base_url() ?>assets/js/bootstrapValidator.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/jquery.dataTables.min.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/ZeroClipboard.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/dataTables.tableTools.min.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/dataTables.bootstrap.min.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/datatables-init.js"></script>
+        <script>
+            InitiateSimpleDataTable.init();
+            InitiateEditableDataTable.init();
+            InitiateExpandableDataTable.init();
+            InitiateSearchableDataTable.init();
+        </script>
+        <script src="<?php echo base_url() ?>assets/js/bootbox.js"></script>
 
+        <!--Page Related Scripts for attendance-->
+        <!--Jquery Select2-->
+        <script src="<?php echo base_url() ?>assets/js/select2.min.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/TimeUtils.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/bootstrap-datepicker.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/bootstrap-datepicker2.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/bootstrap-datetimepicker.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/bootstrap-timepicker.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/date.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/moment.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/daterangepicker.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/jquery.placeholder.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/jquery.timepicker.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/json2.js"></script>
+        <script src="<?php echo base_url() ?>assets/js/attendacelib.js"></script>
+        <script>
+            //--Jquery Select2--
+            $("#department_name").select2({
+                placeholder: "Select Department"
+            });
+            $("#designation_name").select2({
+                placeholder: "Select a Designation",
+                allowClear: true
+            });
+            $("#grade").select2({
+                placeholder: "Select a Grade",
+                allowClear: true
+            });
+            $("#basic_salary").select2({
+                placeholder: "Select a Basic Salary",
+                allowClear: true
+            });
+
+            //--Bootstrap Date Picker--
+            $('.date-picker').datepicker();
+
+            //--Bootstrap Time Picker--
+            $('#timepicker1').timepicker();
+
+            //--Bootstrap Date Range Picker--
+            $('#reservation').daterangepicker();
+
+            //--Bootstrap Validaor--
+            $('#html5Form').bootstrapValidator();
+
+
+        </script>
 
     </body>
 
